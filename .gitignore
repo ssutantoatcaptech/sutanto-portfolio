@@ -10,3 +10,8 @@ uploads/steve-sutanto-portfolio-1.1/
 
 # macOS folder metadata
 .DS_Store
+
+# Duplicate re-exports of this same repo: Deck/ is a byte for byte copy of the
+# root, and the zip is an archive of it. Everything in both is already tracked.
+Deck/
+*.zip
