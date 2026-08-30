@@ -1,0 +1,12 @@
+{
+  "name": "sutanto-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Steve Sutanto portfolio: static Claude Design pages, no build step",
+  "scripts": {
+    "start": "serve --listen 8001 ."
+  },
+  "devDependencies": {
+    "serve": "^14.2.4"
+  }
+}

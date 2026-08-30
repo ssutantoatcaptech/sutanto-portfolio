@@ -13,3 +13,6 @@ uploads/steve-sutanto-portfolio-1.1/
 
 # macOS folder metadata
 .DS_Store
+
+# npm dependencies
+node_modules/
