@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Loading — Submit Confirmation Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; }
+body { font-family: 'Source Sans Pro', system-ui, sans-serif; background: #e8e8ec; color: #0f0f14; -webkit-font-smoothing: antialiased; min-width: 1440px; min-height: 1024px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+
+/* Dribbble card frame */
+.frame { width: 1320px; height: 920px; background: #f5f5f7; border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,0.12); overflow: hidden; display: flex; flex-direction: column; }
+
+/* Nav */
+.top-nav { background: #fff; border-bottom: 1px solid #f0f0f0; flex-shrink: 0; }
+.nav-main { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; }
+.nav-main-left { display: flex; align-items: center; gap: 32px; }
+.nav-brand { font-size: 20px; font-weight: 700; color: #105fa8; letter-spacing: -0.3px; }
+.nav-brand span { color: #222; }
+.nav-links { display: flex; gap: 8px; }
+.nav-link { padding: 10px 12px; border-radius: 4px; font-size: 14px; font-weight: 600; color: #222; border: none; background: none; font-family: inherit; cursor: pointer; }
+.nav-link.active { background: #e9f3fb; }
+.nav-utilities { display: flex; align-items: center; gap: 4px; }
+.nav-util { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 4px; font-size: 14px; font-weight: 600; color: #222; background: none; border: none; cursor: pointer; font-family: inherit; }
+.nav-bell { position: relative; padding: 8px 12px; background: none; border: none; cursor: pointer; }
+.nav-bell-dot { position: absolute; top: 10px; right: 8px; width: 6px; height: 6px; border-radius: 50%; background: #ef4444; }
+.nav-avatar { display: flex; align-items: center; gap: 10px; padding: 4px 8px; }
+.nav-avatar-circle { width: 36px; height: 36px; border-radius: 50%; background: #105fa8; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; }
+.nav-avatar-name { font-size: 14px; font-weight: 600; color: #222; }
+
+/* Layout */
+.vi-page { flex: 1; display: flex; flex-direction: column; align-items: center; padding-top: 48px; overflow: hidden; }
+.vi-wrap { width: 696px; margin: 0 auto; padding: 0 0 40px; transition: width 400ms ease; }
+
+/* Meta + progress */
+.vi-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 2px; }
+.vi-meta-left { font-size: 13px; color: #62626e; }
+.vi-meta-right { font-size: 13px; color: #3d3d47; font-weight: 500; }
+.vi-progress { height: 3px; background: #e8e8ec; border-radius: 2px; margin-bottom: 20px; overflow: hidden; }
+.vi-progress-fill { height: 100%; background: #1a1a2e; border-radius: 2px; transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+
+/* Card */
+.vi-card { background: #fff; border: 1px solid #e2e2e5; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; min-height: 520px; max-height: 700px; }
+.vi-card .step-content { overflow-y: auto; scroll-behavior: smooth; }
+
+/* Cursor hotspot */
+@keyframes cursorMove { 0% { opacity: 0; transform: translate(-40px, -20px); } 30% { opacity: 1; } 100% { opacity: 1; transform: translate(0, 0); } }
+@keyframes cursorClick { 0% { transform: scale(1); } 50% { transform: scale(0.85); } 100% { transform: scale(1); } }
+@keyframes ripple { 0% { transform: scale(0); opacity: 0.5; } 100% { transform: scale(2.5); opacity: 0; } }
+
+.cursor-dot { position: absolute; z-index: 50; pointer-events: none; animation: cursorMove 600ms cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.cursor-dot svg { filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+.cursor-dot.click svg { animation: cursorClick 200ms ease-in-out; }
+.btn-ripple { position: absolute; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.4); pointer-events: none; animation: ripple 500ms ease-out forwards; }
+.vi-btn-primary.pressed { transform: scale(0.97); background: #0d4f8c; }
+.vi-card h2 { font-size: 21px; font-weight: 700; color: #0f0f14; letter-spacing: -0.02em; margin-bottom: 8px; }
+.vi-subtitle { font-size: 15px; color: #5d5d5d; line-height: 1.6; margin-bottom: 24px; }
+
+/* Step 12 Review — Readonly fields */
+.step-content { flex: 1; padding: 32px 36px; }
+.vi-readonly { border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px 24px; background: #fbfbfb; }
+.vi-ro-title { font-size: 15px; font-weight: 700; color: #222; margin-bottom: 16px; }
+.vi-readonly-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+.vi-field-label { font-size: 13px; color: #838383; margin-bottom: 2px; }
+.vi-field-value { font-size: 15px; color: #222; font-weight: 500; }
+
+/* Footer */
+.vi-footer-wrap { border-top: 1px solid #e4e4e4; background: #F4F9FD; padding: 20px 36px; border-radius: 0 0 10px 10px; margin-top: auto; }
+.vi-footer { display: flex; justify-content: space-between; align-items: center; }
+.vi-footer-left { display: flex; gap: 12px; }
+.vi-btn { padding: 8px 24px; border-radius: 4px; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; height: 32px; }
+.vi-btn-lg { padding: 12px 32px; font-size: 15px; height: 44px; border-radius: 6px; }
+.vi-btn-outline { background: #fff; border: 1px solid #105fa8; color: #105fa8; }
+.vi-btn-primary { background: #105fa8; border: 1px solid #105fa8; color: #fff; }
+
+/* Submit loading */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes spin1 { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes spin2 { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes spin3 { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes dotPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+@keyframes arcsIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes arcsOut { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(0); opacity: 0; } }
+@keyframes successIconIn { 0% { transform: scale(0); opacity: 0; } 20% { transform: scale(0.6); opacity: 1; } 50% { transform: scale(1.8); opacity: 1; } 75% { transform: scale(0.95); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes successCheckDraw { from { stroke-dashoffset: 24; } to { stroke-dashoffset: 0; } }
+
+.vi-submit-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 440px; padding: 60px 20px; background: #fff; }
+#animArea { position: relative; display: flex; align-items: center; justify-content: center; min-height: 100px; }
+.arcs-wrap { position: relative; width: 100px; height: 100px; }
+.arcs-wrap.enter { animation: arcsIn 500ms cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.arcs-wrap.exit { animation: arcsOut 400ms ease-in forwards; }
+.arc { position: absolute; inset: 0; border-radius: 50%; border: 3.5px solid transparent; }
+.arc.a1 { inset: 0; border-top-color: #105fa8; border-right-color: #105fa8; animation: spin1 2.4s ease-in-out infinite; }
+.arc.a2 { inset: 12px; border-top-color: #3b82f6; border-left-color: #3b82f6; animation: spin2 1.8s ease-in-out infinite; }
+.arc.a3 { inset: 24px; border-bottom-color: #93c5fd; animation: spin3 1.4s ease-in-out infinite; }
+.dot { position: absolute; inset: 0; margin: auto; width: 16px; height: 16px; border-radius: 50%; background: #105fa8; animation: dotPulse 1.6s ease-in-out infinite; }
+.s-text { margin-top: 32px; font-size: 16px; font-weight: 600; color: #222; opacity: 0; transition: opacity 500ms ease; }
+.s-text.show { opacity: 1; }
+.s-sub { font-size: 14px; color: #838383; margin-top: 8px; opacity: 0; transition: opacity 500ms ease 200ms; }
+.s-sub.show { opacity: 1; }
+
+/* Success icon bridge */
+.success-bridge { width: 52px; height: 52px; border-radius: 50%; background: #dcfce7; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; opacity: 0; transform: scale(0); }
+.success-bridge.enter { animation: successIconIn 1000ms ease-in-out forwards; }
+.success-bridge svg { stroke-dasharray: 24; stroke-dashoffset: 24; }
+.success-bridge.enter svg { animation: successCheckDraw 500ms ease-in-out 500ms forwards; }
+
+/* Confirmation */
+.vi-success { padding: 36px; }
+.vi-success-top { text-align: center; margin-bottom: 28px; }
+.vi-success-icon { width: 52px; height: 52px; border-radius: 50%; background: #dcfce7; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+.vi-success h2 { font-size: 22px; margin-bottom: 6px; color: #222; }
+.vi-success-sub { font-size: 14px; color: #5d5d5d; line-height: 1.5; }
+.vi-success-body { }
+.vi-success-ref { background: #f0f6ff; border-radius: 10px; padding: 20px 24px; margin-bottom: 20px; }
+.vi-success-ref-label { font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.vi-success-ref-num { font-size: 22px; font-weight: 700; color: #222; letter-spacing: 0.5px; }
+.vi-success-details { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; padding: 16px 0; border-top: 1px solid #e4e4e4; border-bottom: 1px solid #e4e4e4; margin-bottom: 24px; }
+.sd-label { font-size: 11px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 4px; }
+.sd-value { font-size: 13px; font-weight: 600; color: #222; }
+.vi-success-next { margin-bottom: 24px; }
+.vi-success-next h3 { font-size: 16px; font-weight: 600; color: #222; margin-bottom: 16px; }
+.sn-step { display: flex; gap: 14px; padding: 12px 0; }
+.sn-step + .sn-step { border-top: 1px solid #f0f0f0; }
+.sn-num { width: 28px; height: 28px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #555; flex-shrink: 0; }
+.sn-title { font-size: 14px; font-weight: 600; color: #222; margin-bottom: 2px; }
+.sn-desc { font-size: 13px; color: #64748b; line-height: 1.4; }
+.vi-success-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 20px 0; border-top: 1px solid #e4e4e4; border-bottom: 1px solid #e4e4e4; margin-bottom: 20px; }
+.sa-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 8px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; color: #222; background: none; border: none; font-family: inherit; }
+.sa-btn svg { color: #64748b; }
+.vi-success-email { font-size: 13px; color: #64748b; line-height: 1.5; padding-left: 12px; border-left: 3px solid #e4e4e4; }
+.vi-success-email strong { color: #222; }
+</style>
+</head>
+<body>
+
+<div class="frame">
+  <!-- Global Header -->
+  <div class="top-nav">
+    <div class="nav-main">
+      <div class="nav-main-left">
+        <div class="nav-brand">my<span>Mutual</span></div>
+        <nav class="nav-links">
+          <button class="nav-link">Dashboard</button>
+          <button class="nav-link">My Coverages</button>
+          <button class="nav-link">Claims</button>
+          <button class="nav-link active">Absences</button>
+          <button class="nav-link">Support</button>
+        </nav>
+      </div>
+      <div class="nav-utilities">
+        <button class="nav-util"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M6 9h12M6 13h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Find ID Card</button>
+        <button class="nav-util"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 7l10 7 10-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Messages</button>
+        <button class="nav-bell"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3C8.69 3 6 5.69 6 9v4l-2 3h16l-2-3V9c0-3.31-2.69-6-6-6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 21a2 2 0 004 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span class="nav-bell-dot"></span></button>
+        <div class="nav-avatar"><div class="nav-avatar-circle">SJ</div><span class="nav-avatar-name">Sarah Johnson</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page -->
+  <div class="vi-page">
+    <div class="vi-wrap" id="wrap">
+      <div class="vi-meta" id="meta">
+        <div class="vi-meta-left" id="metaLeft">Step 12 of 12 &mdash; Final step</div>
+        <div class="vi-meta-right" id="metaRight">Review and submit</div>
+      </div>
+      <div class="vi-progress" id="progressWrap"><div class="vi-progress-fill" id="progressFill" style="width:100%"></div></div>
+      <div class="vi-card" id="card"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showStep12() {
+  var card = document.getElementById('card');
+  var wrap = document.getElementById('wrap');
+  wrap.style.width = '696px';
+
+  document.getElementById('meta').style.display = '';
+  document.getElementById('progressWrap').style.display = '';
+  document.getElementById('metaLeft').textContent = 'Step 12 of 12 \u2014 Final step';
+  document.getElementById('metaRight').textContent = 'Review and submit';
+  document.getElementById('progressFill').style.width = '100%';
+  card.style.border = '';
+
+  card.innerHTML = '<div class="step-content" id="s12content" style="opacity:0;transform:translateY(8px);transition:opacity 600ms ease,transform 600ms ease">' +
+    '<h2>Review your absence request</h2>' +
+    '<p class="vi-subtitle">Please review the information below before submitting. You can go back to any step to make changes.</p>' +
+
+    '<div class="vi-readonly" style="margin-bottom:16px">' +
+      '<div class="vi-ro-title">Employee Information</div>' +
+      '<div class="vi-readonly-grid">' +
+        '<div class="vi-readonly-field"><div class="vi-field-label">Full Name</div><div class="vi-field-value">Sarah Johnson</div></div>' +
+        '<div class="vi-readonly-field"><div class="vi-field-label">Employee ID</div><div class="vi-field-value">EMP-20198</div></div>' +
+        '<div class="vi-readonly-field"><div class="vi-field-label">Email</div><div class="vi-field-value">sarah.johnson@company.com</div></div>' +
+        '<div class="vi-readonly-field"><div class="vi-field-label">Phone</div><div class="vi-field-value">(555) 867-5309</div></div>' +
+      '</div>' +
+    '</div>' +
+
+    '<div class="vi-readonly" style="margin-bottom:16px">' +
+      '<div class="vi-ro-title">Absence Details</div>' +
+      '<div class="vi-readonly-grid">' +
+        '<div class="vi-readonly-field"><div class="vi-field-label">Reason</div><div class="vi-field-value">Birthing Parent, Pregnancy, or Bonding</div></div>' +
+        '<div class="vi-readonly-field"><div class="vi-field-label">Absence Type</div><div class="vi-field-value">Continuous</div></div>' +
+        '<div class="vi-readonly-field"><div class="vi-field-label">Start Date</div><div class="vi-field-value">June 1, 2025</div></div>' +
+        '<div class="vi-readonly-field"><div class="vi-field-label">Return Date</div><div class="vi-field-value">September 16, 2025</div></div>' +
+        '<div class="vi-readonly-field"><div class="vi-field-label">Child Scenario</div><div class="vi-field-value">Birth</div></div>' +
+        '<div class="vi-readonly-field"><div class="vi-field-label">Bonding</div><div class="vi-field-value">Right away</div></div>' +
+      '</div>' +
+    '</div>' +
+
+    '<div class="vi-readonly">' +
+      '<div class="vi-ro-title">Schedule</div>' +
+      '<div class="vi-readonly-grid">' +
+        '<div class="vi-readonly-field"><div class="vi-field-label">Weekly Hours</div><div class="vi-field-value">40 hrs/week</div></div>' +
+        '<div class="vi-readonly-field"><div class="vi-field-label">Rotating Schedule</div><div class="vi-field-value">No</div></div>' +
+        '<div class="vi-readonly-field"><div class="vi-field-label">Spousal Sharing</div><div class="vi-field-value">No</div></div>' +
+        '<div class="vi-readonly-field"><div class="vi-field-label">Primary Caregiver</div><div class="vi-field-value">Yes</div></div>' +
+      '</div>' +
+    '</div>' +
+  '</div>' +
+
+  '<div class="vi-footer-wrap"><div class="vi-footer"><div class="vi-footer-left">' +
+    '<button class="vi-btn vi-btn-lg vi-btn-outline">\u2190 Back</button>' +
+    '<button class="vi-btn vi-btn-lg vi-btn-outline">Save and Exit</button></div>' +
+    '<button class="vi-btn vi-btn-lg vi-btn-primary" id="submitBtn">Submit Absence Request</button></div></div>';
+
+  requestAnimationFrame(function() { requestAnimationFrame(function() {
+    var content = document.getElementById('s12content');
+    if (content) { content.style.opacity = '1'; content.style.transform = 'translateY(0)'; }
+  }); });
+
+  // Scroll down to show the submit button
+  setTimeout(function() {
+    var content = document.getElementById('s12content');
+    if (content) content.scrollTo({ top: content.scrollHeight, behavior: 'smooth' });
+  }, 800);
+
+  // Show cursor moving to submit button, then click
+  setTimeout(function() {
+    var btn = document.getElementById('submitBtn');
+    if (!btn) return;
+    var btnRect = btn.getBoundingClientRect();
+    var frameRect = document.querySelector('.frame').getBoundingClientRect();
+
+    // Create cursor
+    var cursor = document.createElement('div');
+    cursor.className = 'cursor-dot';
+    cursor.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 1L4 16.5L8.5 12.5L12.5 20L15 19L11 11L16.5 11L4 1Z" fill="#222" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>';
+    cursor.style.left = (btnRect.left - frameRect.left + btnRect.width / 2 - 4) + 'px';
+    cursor.style.top = (btnRect.top - frameRect.top + btnRect.height / 2 - 4) + 'px';
+    document.querySelector('.frame').appendChild(cursor);
+
+    // Click effect after cursor arrives
+    setTimeout(function() {
+      cursor.classList.add('click');
+      btn.classList.add('pressed');
+
+      // Ripple on button
+      var ripple = document.createElement('div');
+      ripple.className = 'btn-ripple';
+      ripple.style.left = (btnRect.width / 2 - 20) + 'px';
+      ripple.style.top = (btnRect.height / 2 - 20) + 'px';
+      btn.style.position = 'relative';
+      btn.style.overflow = 'hidden';
+      btn.appendChild(ripple);
+
+      // Transition to loading
+      setTimeout(function() {
+        cursor.remove();
+        card.style.transition = 'opacity 500ms ease';
+        card.style.opacity = '0';
+        setTimeout(function() {
+          card.style.transition = 'none';
+          card.style.opacity = '1';
+          showSubmitLoading();
+        }, 500);
+      }, 400);
+    }, 600);
+  }, 2200);
+}
+
+function showSubmitLoading() {
+  var card = document.getElementById('card');
+  var wrap = document.getElementById('wrap');
+
+  // Hide meta/progress for loading
+  document.getElementById('meta').style.display = 'none';
+  document.getElementById('progressWrap').style.display = 'none';
+  card.style.border = 'none';
+
+  // Widen for centered loading
+  wrap.style.width = '780px';
+
+  card.innerHTML = '<div class="vi-submit-screen" id="submitScreen">' +
+    '<div id="animArea"><div class="arcs-wrap enter" id="arcs">' +
+      '<div class="arc a1"></div><div class="arc a2"></div><div class="arc a3"></div><div class="dot"></div></div></div>' +
+    '<div class="s-text" id="sText">Submitting your request</div>' +
+    '<div class="s-sub" id="sSub">Please wait while we process your information</div></div>';
+
+  var arcs = document.getElementById('arcs');
+  var animArea = document.getElementById('animArea');
+  var textEl = document.getElementById('sText');
+  var subEl = document.getElementById('sSub');
+
+  setTimeout(function() { textEl.classList.add('show'); subEl.classList.add('show'); }, 300);
+  setTimeout(function() { textEl.textContent = 'Almost there\u2026'; }, 3000);
+
+  // Collapse arcs -> render confirmation with icon animating in place
+  setTimeout(function() {
+    arcs.classList.remove('enter'); arcs.classList.add('exit');
+    setTimeout(showConfirmation, 400);
+  }, 4000);
+}
+
+function showConfirmation() {
+  var card = document.getElementById('card');
+
+  card.innerHTML = '<div class="vi-success">' +
+    '<div class="vi-success-top">' +
+      '<div class="success-bridge" id="successIcon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+      '<h2 style="opacity:0;transform:translateY(8px);transition:opacity 500ms ease-in-out,transform 500ms ease-in-out">Absence Request Successfully Submitted</h2>' +
+      '<div class="vi-success-sub" style="opacity:0;transition:opacity 500ms ease-in-out">Your request has been received and is now being processed by our team</div>' +
+    '</div>' +
+    '<div class="vi-success-body" id="sBody" style="opacity:0;transform:translateY(16px);transition:opacity 600ms ease-in-out,transform 600ms ease-in-out">' +
+      '<div class="vi-success-ref"><div class="vi-success-ref-label">Absence Case Number</div><div class="vi-success-ref-num">LV-2025-5643</div></div>' +
+      '<div class="vi-success-details">' +
+        '<div><div class="sd-label">Submitted Date</div><div class="sd-value">April 4, 2026</div></div>' +
+        '<div><div class="sd-label">Absence Start Date</div><div class="sd-value">June 1, 2025</div></div>' +
+        '<div><div class="sd-label">End Date</div><div class="sd-value">September 15, 2025</div></div>' +
+        '<div><div class="sd-label">Expected Return</div><div class="sd-value">September 16, 2025</div></div>' +
+        '<div><div class="sd-label">Processing Time</div><div class="sd-value">3\u20135 business days</div></div>' +
+      '</div>' +
+      '<div class="vi-success-next"><h3>What Happens Next</h3>' +
+        '<div class="sn-step"><div class="sn-num">1</div><div><div class="sn-title">We review your request</div><div class="sn-desc">We\u2019ll review your request and notify you about your eligibility.</div></div></div>' +
+        '<div class="sn-step"><div class="sn-num">2</div><div><div class="sn-title">We\u2019ll let you know if we need anything</div><div class="sn-desc">If additional information is needed, we\u2019ll notify you here.</div></div></div>' +
+        '<div class="sn-step"><div class="sn-num">3</div><div><div class="sn-title">You\u2019ll receive an update</div><div class="sn-desc">We\u2019ll keep you updated as your request progresses.</div></div></div>' +
+      '</div>' +
+      '<div class="vi-success-actions">' +
+        '<button class="sa-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>View Status</button>' +
+        '<button class="sa-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Upload Documents</button>' +
+        '<button class="sa-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact</button>' +
+      '</div>' +
+      '<div class="vi-success-email">A confirmation email with all details and instructions has been sent to <strong>sarah.johnson@company.com</strong></div>' +
+    '</div></div>';
+
+  // Start icon scale animation immediately
+  requestAnimationFrame(function() {
+    var iconEl = document.getElementById('successIcon');
+    if (iconEl) iconEl.classList.add('enter');
+  });
+
+  // Stagger text and body after icon settles
+  setTimeout(function() {
+    var h2 = card.querySelector('.vi-success-top h2');
+    var sub = card.querySelector('.vi-success-sub');
+    var body = document.getElementById('sBody');
+    if (h2) { h2.style.opacity = '1'; h2.style.transform = 'translateY(0)'; }
+    if (sub) { sub.style.opacity = '1'; }
+    setTimeout(function() {
+      if (body) { body.style.opacity = '1'; body.style.transform = 'translateY(0)'; }
+    }, 300);
+  }, 800);
+
+  // Hold, then loop back to step 12
+  setTimeout(function() {
+    card.style.transition = 'opacity 600ms ease'; card.style.opacity = '0';
+    setTimeout(function() {
+      card.style.transition = 'none'; card.style.opacity = '1';
+      showStep12();
+    }, 700);
+  }, 5000);
+}
+
+showStep12();
+</script>
+</body>
+</html>

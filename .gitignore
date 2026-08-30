@@ -1,3 +1,12 @@
 # Failed Claude Design exports: five files that each re-exported the landing
 # page instead of their named page. Kept locally until the pages are re-exported.
 *Standalone*.html
+
+# Working files that no page references: an older duplicate of the deck
+# (three identical copies of the same PDF) and an extracted copy of the
+# previous site. Kept locally, out of git history.
+uploads/Deck modification/
+uploads/steve-sutanto-portfolio-1.1/
+
+# macOS folder metadata
+.DS_Store

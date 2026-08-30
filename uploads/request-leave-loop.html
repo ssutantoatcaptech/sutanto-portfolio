@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request Leave — End-to-End Flow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --color-brand-primary: #105fa8;
+  --color-brand-primary-hover: #0a4a85;
+  --color-brand-navy: #003a70;
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #5d5d5d;
+  --color-text-tertiary: #6b7280;
+  --color-text-placeholder: #9ca3af;
+  --color-text-inverse: #ffffff;
+  --color-bg-page: #edf5fc;
+  --color-bg-card: #ffffff;
+  --color-bg-muted: #f3f4f6;
+  --color-bg-info: #dcebf9;
+  --color-bg-selected: #eff6ff;
+  --color-bg-success: #d1fae5;
+  --color-border-default: #e4e4e4;
+  --color-border-input: #d1d5db;
+  --color-border-card: #e5e7eb;
+  --color-border-selected: #105fa8;
+  --color-status-success: #16a34a;
+  --color-status-success-bg: #dcfce7;
+  --color-status-warning: #f59e0b;
+  --color-status-info-bg: #dcebf9;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.08);
+  --font: 'Source Sans 3', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font); background: var(--color-bg-page); color: var(--color-text-primary); min-height: 100vh; }
+
+/* Shell */
+.request-leave-shell { background: var(--color-bg-page); min-height: 100vh; display: flex; flex-direction: column; }
+.wizard-wrap { width: 900px; max-width: calc(100% - 64px); margin: 0 auto; padding: 40px 0 48px; }
+
+/* Stepper */
+.stepper { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; }
+.stepper-title { font-size: 16px; font-weight: 400; }
+.stepper-title strong { font-weight: 700; }
+.stepper-counter { font-size: 14px; color: #9ca3af; }
+
+/* Progress bar */
+.progress-bar { height: 6px; border-radius: var(--radius-sm); margin-bottom: 24px; overflow: hidden; display: flex; }
+.progress-fill { height: 100%; background: var(--color-brand-navy); border-radius: var(--radius-sm) 0 0 var(--radius-sm); transition: width 0.5s cubic-bezier(0.22,1,0.36,1); }
+.progress-remaining { flex: 1; height: 100%; background: #7ecbc5; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+
+/* Wizard card */
+.wizard-card { background: var(--color-bg-card); border: 1px solid var(--color-border-card); border-radius: var(--radius-xl); padding: 40px; margin-bottom: 60px; box-shadow: var(--shadow-card); min-height: 400px; position: relative; }
+.wizard-card h2 { font-size: 23px; font-weight: 700; color: var(--color-brand-primary); letter-spacing: -0.01em; margin-bottom: 8px; }
+.wizard-card .subtitle { font-size: 15px; color: var(--color-text-secondary); font-weight: 400; line-height: 1.6; margin-bottom: 24px; }
+
+/* Option cards (3-col grid) */
+.option-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+.option-card { border: 1.5px solid var(--color-border-default); border-radius: var(--radius-lg); padding: 24px 16px 20px; cursor: pointer; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; min-height: 140px; background: var(--color-bg-card); transition: all 0.2s; }
+.option-card:hover { border-color: var(--color-brand-primary); background: var(--color-bg-page); }
+.option-card.selected { border-color: #0891b2; border-width: 2px; background: #f0fdfa; }
+.option-card-icon { width: 40px; height: 40px; border-radius: 50%; background: var(--color-bg-info); color: var(--color-brand-navy); display: flex; align-items: center; justify-content: center; }
+.option-card.selected .option-card-icon { background: var(--color-brand-navy); color: var(--color-text-inverse); }
+.option-text h4 { font-size: 14px; font-weight: 700; color: var(--color-text-primary); }
+.option-card.selected .option-text h4 { color: var(--color-brand-navy); }
+.option-text p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; margin-top: 4px; }
+
+/* Leave type picker */
+.lt-picker { display: flex; gap: 12px; margin-bottom: 20px; }
+.lt-btn { flex: 1; display: inline-flex; align-items: center; gap: 10px; padding: 14px 18px; border: 1.5px solid var(--color-border-default); border-radius: var(--radius-lg); background: var(--color-bg-card); cursor: pointer; font-family: var(--font); font-size: 14px; font-weight: 600; color: var(--color-text-primary); transition: all 0.2s; }
+.lt-btn.selected { border-color: var(--color-brand-primary); border-width: 2px; background: var(--color-bg-selected); color: var(--color-brand-navy); }
+.lt-btn-icon { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--color-border-default); flex-shrink: 0; }
+.lt-btn.selected .lt-btn-icon { border-color: var(--color-brand-primary); background: var(--color-brand-primary); box-shadow: inset 0 0 0 3px var(--color-bg-card); }
+
+/* Context description */
+.lt-context-desc { display: flex; align-items: center; gap: 12px; background: var(--color-bg-card); border: 1px solid var(--color-border-card); border-top: 3px solid var(--color-brand-primary); border-radius: var(--radius-lg); color: var(--color-text-primary); font-size: 14px; font-weight: 500; line-height: 1.5; padding: 16px 20px; margin: 0 0 20px; box-shadow: var(--shadow-sm); }
+.lt-context-desc::before { content: ''; display: inline-flex; flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--color-brand-primary) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14' fill='none'%3E%3Cpath d='M7 6v4' stroke='white' stroke-width='1.3' stroke-linecap='round'/%3E%3Ccircle cx='7' cy='4' r='0.75' fill='white'/%3E%3C/svg%3E") no-repeat center; }
+
+/* Labels */
+label, .form-label { display: block; font-size: 11px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 7px; }
+
+/* Inputs */
+.form-input, input[type='text'], select { width: 100%; padding: 12px 14px; height: 44px; background: var(--color-bg-card); border: 1px solid var(--color-border-input); border-radius: var(--radius-md); color: var(--color-text-primary); font-size: 14px; font-family: var(--font); outline: none; }
+.form-input:focus { border-color: var(--color-brand-primary); }
+
+/* Form rows */
+.form-row { display: grid; gap: 16px; margin-bottom: 20px; }
+.form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+.form-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+.form-group { display: flex; flex-direction: column; }
+
+/* Radio */
+.radio-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+.radio-option { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; font-weight: 400; text-transform: none; letter-spacing: 0; }
+.radio-circle { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--color-border-input); flex-shrink: 0; position: relative; }
+.radio-circle.selected { border-color: var(--color-brand-primary); background: var(--color-brand-primary); box-shadow: inset 0 0 0 4px var(--color-bg-card); }
+
+/* Yes/No buttons */
+.yesno { display: flex; gap: 12px; margin-bottom: 16px; }
+.yesno-btn { padding: 0 28px; height: 40px; border-radius: var(--radius-md); border: 1.5px solid var(--color-border-default); background: var(--color-bg-card); font-size: 14px; font-weight: 600; cursor: pointer; font-family: var(--font); color: var(--color-text-primary); display: inline-flex; align-items: center; justify-content: center; }
+.yesno-btn.selected { border-color: var(--color-brand-primary); background: var(--color-brand-primary); color: white; }
+
+/* Schedule grid */
+.schedule-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; margin-bottom: 20px; }
+.schedule-day { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.schedule-day-label { font-size: 11px; font-weight: 700; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
+.schedule-day-box { width: 64px; height: 56px; border-radius: var(--radius-md); border: 1.5px solid var(--color-border-input); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; background: var(--color-bg-card); }
+.schedule-day-box.has-hours { border-color: var(--color-brand-primary); }
+.schedule-total-badge { display: inline-flex; align-items: center; gap: 4px; padding: 6px 14px; border: 1px solid #d1d5db; border-radius: var(--radius-lg); font-size: 13px; color: var(--color-text-primary); }
+.schedule-total-badge strong { font-weight: 700; font-size: 15px; }
+
+/* Bordered section */
+.bordered-section { border: 1px solid var(--color-border-card); border-radius: 10px; padding: 24px; margin-top: 20px; background: #f5f5f7; }
+.section-title { font-size: 16px; font-weight: 700; color: var(--color-brand-primary); margin-bottom: 16px; }
+
+/* Info box */
+.info-box { background: var(--color-bg-info); border: none; border-radius: var(--radius-lg); padding: 16px 20px; margin-bottom: 20px; display: flex; gap: 12px; align-items: center; font-size: 14px; color: var(--color-text-primary); line-height: 1.5; font-weight: 500; }
+
+/* Inline message */
+.rl-inline-message { display: flex; align-items: stretch; background: var(--color-status-info-bg); border: 1.5px solid #d6e4f0; border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
+.rl-inline-message-bar { width: 40px; flex-shrink: 0; background: #105fa8; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; }
+.rl-inline-message-body { flex: 1; padding: 14px 20px; }
+.rl-inline-message-title { font-size: 15px; font-weight: 600; color: #105fa8; }
+.rl-inline-message-text { font-size: 13px; color: #4b4b4b; line-height: 1.5; margin-top: 2px; }
+
+/* Missed time entries */
+.missed-entry { margin-bottom: 16px; border: 1px solid var(--color-border-input); border-radius: var(--radius-lg); padding: 20px; background: var(--color-bg-card); }
+.missed-entry-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.missed-entry-title { font-size: 15px; font-weight: 700; }
+
+/* Checkbox */
+.comm-check { display: flex; align-items: center; gap: 8px; font-size: 14px; margin-bottom: 8px; }
+.comm-check-box { width: 16px; height: 16px; border-radius: var(--radius-sm); border: 2px solid var(--color-border-default); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.comm-check-box.checked { background: var(--color-brand-primary); border-color: var(--color-brand-primary); }
+
+/* Review sections */
+.br-section { background: var(--color-bg-card); border: 1px solid var(--color-border-input); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+.br-section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.br-section-header h3 { font-size: 16px; font-weight: 700; color: var(--color-brand-primary); margin: 0; }
+.br-section-edit { font-size: 13px; color: var(--color-brand-primary); font-weight: 600; cursor: pointer; }
+.br-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px; }
+.br-field-label { font-size: 11px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
+.br-field-value { font-size: 14px; color: var(--color-text-primary); font-weight: 500; }
+
+/* Benefits timeline */
+.eb-card { background: var(--color-bg-card); border: 1px solid var(--color-border-input); border-radius: var(--radius-xl); padding: 36px; margin-top: 8px; }
+.eb-section-header h3 { font-size: 20px; font-weight: 600; color: #003a70; margin: 0 0 4px; }
+.eb-section-header p { font-size: 14px; color: var(--color-text-secondary); margin: 0; }
+.eb-tl-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.eb-tl-row-label { color: #222; font-size: 14px; font-weight: 600; width: 75px; text-align: right; flex-shrink: 0; }
+.eb-tl-row-bar { flex: 1; background: #e4e4e4; height: 32px; border-radius: 4px; position: relative; overflow: hidden; }
+.eb-tl-seg { position: absolute; top: 0; height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 16px; font-size: 14px; font-weight: 600; color: #fff; white-space: nowrap; }
+.eb-tl-seg.fmla { background: var(--color-brand-navy); }
+.eb-tl-seg.std { background: var(--color-brand-primary); }
+.eb-tl-legend { display: flex; gap: 24px; margin-top: 16px; padding-top: 12px; border-top: 1px solid #e4e4e4; }
+.eb-tl-legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+.eb-tl-legend-dot { width: 12px; height: 12px; border-radius: 2.4px; }
+
+/* Breakdown */
+.eb-breakdown { margin-top: 20px; background: var(--color-bg-card); border: 1px solid var(--color-border-input); border-radius: 10px; overflow: hidden; }
+.eb-breakdown-row { padding: 16px 20px; border-top: 1px solid var(--color-bg-muted); }
+.eb-breakdown-row:first-child { border-top: none; }
+.eb-breakdown-label { font-size: 14px; font-weight: 600; }
+.eb-breakdown-detail { display: flex; justify-content: space-between; font-size: 12px; color: var(--color-text-tertiary); margin-top: 2px; }
+.eb-breakdown-footer { padding: 14px 20px; border-top: 1px solid var(--color-border-input); background: #f9fafb; display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; }
+
+/* Success state */
+.success-state { text-align: left; max-width: 640px; margin: 0 auto; }
+.success-icon { width: 64px; height: 64px; border-radius: 50%; background: var(--color-status-success-bg); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+.success-header { text-align: center; margin-bottom: 28px; }
+.success-header h2 { margin-bottom: 4px; color: var(--color-text-primary); font-size: 24px; }
+.success-header p { color: var(--color-text-secondary); font-size: 14px; margin: 4px 0 0; }
+.success-dates-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+.success-date-box { background: var(--color-bg-card); border: 1px solid var(--color-border-input); border-radius: var(--radius-lg); padding: 12px 14px; }
+.success-date-label { font-size: 10px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+.success-date-value { font-size: 14px; font-weight: 600; }
+.success-cases-flat { background: var(--color-bg-card); border: 1px solid var(--color-border-input); border-radius: 10px; overflow: hidden; margin-bottom: 24px; }
+.success-case-flat-item { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--color-border-input); }
+.success-case-flat-item:last-child { border-bottom: none; }
+.success-case-flat-type { font-size: 10px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.success-case-flat-title { font-size: 15px; font-weight: 600; }
+.success-case-flat-badge { display: inline-flex; padding: 4px 12px; border: 1px solid var(--color-border-input); border-radius: 4px; font-size: 12px; font-weight: 600; color: var(--color-text-secondary); }
+.success-next-steps { background: #fff; border: 1px solid var(--color-border-card); border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow-sm); }
+.success-next-steps h3 { font-size: 16px; font-weight: 700; color: var(--color-brand-navy); margin-bottom: 16px; }
+.success-next-list { list-style: disc; padding-left: 20px; }
+.success-next-list li { font-size: 14px; color: var(--color-text-primary); line-height: 1.6; padding: 4px 0; }
+
+/* Footer */
+.wizard-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; }
+.btn { padding: 0 24px; border-radius: var(--radius-md); font-size: 14px; font-weight: 600; cursor: pointer; font-family: var(--font); height: 40px; display: inline-flex; align-items: center; justify-content: center; border: none; transition: all 0.2s; }
+.btn-back { border: 1.5px solid var(--color-brand-primary); background: transparent; color: var(--color-brand-primary); }
+.btn-next, .btn-submit { background: var(--color-brand-primary); color: white; }
+.btn-next:hover, .btn-submit:hover { background: var(--color-brand-primary-hover); }
+.btn-cancel-link { background: none; border: none; font-size: 14px; font-weight: 600; color: var(--color-brand-primary); cursor: pointer; font-family: var(--font); }
+.success-footer { display: flex; gap: 12px; justify-content: center; padding-top: 8px; }
+
+/* Submit loading */
+.rl-submit-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 440px; padding: 60px 20px; }
+.rl-arcs-wrap { position: relative; width: 100px; height: 100px; }
+.rl-arc { position: absolute; inset: 0; border-radius: 50%; border: 3.5px solid transparent; }
+.rl-arc-1 { inset: 0; border-top-color: #105fa8; border-right-color: #105fa8; animation: spin1 2.4s ease-in-out infinite; }
+.rl-arc-2 { inset: 12px; border-top-color: #3b82f6; border-left-color: #3b82f6; animation: spin2 1.8s ease-in-out infinite; }
+.rl-arc-3 { inset: 24px; border-bottom-color: #93c5fd; animation: spin3 1.4s ease-in-out infinite; }
+.rl-arc-dot { position: absolute; inset: 0; margin: auto; width: 16px; height: 16px; border-radius: 50%; background: #105fa8; animation: pulse 1.6s ease-in-out infinite; }
+.rl-submit-text { margin-top: 32px; font-size: 16px; font-weight: 600; color: #222; }
+.rl-submit-sub { font-size: 14px; color: #838383; margin-top: 8px; }
+@keyframes spin1 { to { transform: rotate(360deg); } }
+@keyframes spin2 { to { transform: rotate(360deg); } }
+@keyframes spin3 { to { transform: rotate(360deg); } }
+@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+
+/* Step animation */
+.step-content { animation: fadeSlide 0.35s ease-out; }
+@keyframes fadeSlide { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Wizard card with top border for success */
+.wizard-card--success { border-top: 4px solid #105fa8; padding: 48px 40px; }
+
+/* Controls */
+.controls { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; z-index: 100; background: rgba(0,58,112,0.95); padding: 8px 16px; border-radius: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
+.ctrl-btn { background: transparent; border: 1px solid rgba(255,255,255,0.3); color: white; padding: 6px 14px; border-radius: 16px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: var(--font); transition: background 0.2s; }
+.ctrl-btn:hover { background: rgba(255,255,255,0.15); }
+.ctrl-btn.active { background: rgba(255,255,255,0.25); }
+.ctrl-label { color: rgba(255,255,255,0.7); font-size: 11px; font-weight: 600; padding: 0 8px; }
+
+/* Add week button */
+.rotation-add { display: flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 20px; border: 1.5px dashed var(--color-brand-primary); border-radius: var(--radius-md); cursor: pointer; font-size: 14px; font-weight: 600; color: var(--color-brand-primary); background: transparent; width: 100%; margin-top: 12px; }
+
+/* Provider name row */
+.provider-name-row { display: grid; grid-template-columns: 1fr 100px; gap: 16px; margin-bottom: 20px; }
+</style>
+</head>
+<body>
+<div class="request-leave-shell">
+  <div class="wizard-wrap">
+    <div class="stepper">
+      <div class="stepper-title"><strong>Request a Leave:</strong> Own Illness or Injury</div>
+      <div class="stepper-counter" id="stepCounter">Step 1 of 10</div>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width:10%"></div>
+      <div class="progress-remaining"></div>
+    </div>
+    <div class="wizard-card" id="wizardCard"></div>
+  </div>
+</div>
+
+<div class="controls">
+  <span class="ctrl-label" id="stepLabel">Step 1/10</span>
+  <button class="ctrl-btn" id="pauseBtn" onclick="togglePause()">⏸ Pause</button>
+  <button class="ctrl-btn" id="speedBtn" onclick="cycleSpeed()">4s</button>
+  <button class="ctrl-btn" onclick="restart()">↺ Restart</button>
+  <span class="ctrl-label" id="loopLabel">Loop 1</span>
+</div>
+
+<script>
+const TOTAL_STEPS = 11; // 10 wizard steps + 1 confirmation
+let current = 0;
+let paused = false;
+let loopCount = 1;
+let timer = null;
+let speeds = [4000, 2500, 6000, 8000];
+let speedLabels = ['4s', '2.5s', '6s', '8s'];
+let speedIdx = 0;
+
+const card = document.getElementById('wizardCard');
+const stepCounter = document.getElementById('stepCounter');
+const progressFill = document.getElementById('progressFill');
+const stepLabel = document.getElementById('stepLabel');
+const loopLabel = document.getElementById('loopLabel');
+
+function getDelay() {
+  if (current === 10) return speeds[speedIdx] * 2; // confirmation
+  if (current === 9) return speeds[speedIdx] * 1.3; // review
+  if (current === 8) return speeds[speedIdx] * 1.3; // benefits
+  return speeds[speedIdx];
+}
+
+function updateUI() {
+  if (current < 10) {
+    stepCounter.textContent = `Step ${current + 1} of 10`;
+    stepCounter.parentElement.style.display = '';
+    document.querySelector('.progress-bar').style.display = '';
+    progressFill.style.width = ((current + 1) / 10 * 100) + '%';
+    stepLabel.textContent = `Step ${current + 1}/10`;
+    card.className = 'wizard-card';
+  } else if (current === 10) {
+    // Submitting then confirmation
+    stepCounter.parentElement.style.display = 'none';
+    document.querySelector('.progress-bar').style.display = 'none';
+    stepLabel.textContent = 'Submitted ✓';
+    card.className = 'wizard-card wizard-card--success';
+  }
+  loopLabel.textContent = `Loop ${loopCount}`;
+}
+
+function render() {
+  card.innerHTML = `<div class="step-content">${steps[current]()}</div>`;
+  updateUI();
+}
+
+function advance() {
+  if (paused) return;
+  current++;
+  if (current >= TOTAL_STEPS) {
+    current = 0;
+    loopCount++;
+  }
+  render();
+  scheduleNext();
+}
+
+function scheduleNext() {
+  clearTimeout(timer);
+  if (!paused) timer = setTimeout(advance, getDelay());
+}
+
+function togglePause() {
+  paused = !paused;
+  document.getElementById('pauseBtn').textContent = paused ? '▶ Play' : '⏸ Pause';
+  if (!paused) scheduleNext();
+}
+
+function cycleSpeed() {
+  speedIdx = (speedIdx + 1) % speeds.length;
+  document.getElementById('speedBtn').textContent = speedLabels[speedIdx];
+}
+
+function restart() {
+  clearTimeout(timer);
+  current = 0;
+  loopCount = 1;
+  paused = false;
+  document.getElementById('pauseBtn').textContent = '⏸ Pause';
+  render();
+  scheduleNext();
+}
+
+// --- STEP CONTENT ---
+const steps = [
+  // 0: Reason
+  () => `
+    <h2>Why are you taking leave?</h2>
+    <p class="subtitle">Select the reason that best describes your situation.</p>
+    <div class="option-cards">
+      <div class="option-card selected">
+        <div class="option-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.5"/></svg></div>
+        <div class="option-text"><h4>My Own Illness or Injury</h4><p>Surgery, illness, injury, or recovery</p></div>
+      </div>
+      <div class="option-card">
+        <div class="option-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke="currentColor" stroke-width="1.5"/></svg></div>
+        <div class="option-text"><h4>Caring for Family Member</h4></div>
+      </div>
+      <div class="option-card">
+        <div class="option-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="7" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M20 8v6M17 11h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="option-text"><h4>Non-Birthing Parent</h4></div>
+      </div>
+      <div class="option-card">
+        <div class="option-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M8 16c0-2.21 1.79-4 4-4s4 1.79 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="option-text"><h4>Birthing Parent</h4></div>
+      </div>
+      <div class="option-card">
+        <div class="option-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v6c0 5.25 3.75 10.13 9 11.25 5.25-1.12 9-6 9-11.25V7l-9-5z" stroke="currentColor" stroke-width="1.5"/></svg></div>
+        <div class="option-text"><h4>Military Related</h4></div>
+      </div>
+      <div class="option-card">
+        <div class="option-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="12" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="16" cy="12" r="1" fill="currentColor"/></svg></div>
+        <div class="option-text"><h4>Other</h4></div>
+      </div>
+    </div>
+    <div class="wizard-footer"><button class="btn-cancel-link">Cancel</button><button class="btn btn-next">Continue</button></div>
+  `,
+
+  // 1: Structure
+  () => `
+    <h2>How would you like to structure your leave?</h2>
+    <p class="subtitle">This helps us figure out which benefits and protections apply.</p>
+    <div class="lt-picker">
+      <div class="lt-btn selected"><span class="lt-btn-icon"></span><span>Continuous</span></div>
+      <div class="lt-btn"><span class="lt-btn-icon"></span><span>Intermittent</span></div>
+      <div class="lt-btn"><span class="lt-btn-icon"></span><span>Reduced Schedule</span></div>
+    </div>
+    <div class="lt-context-desc">You'll be away from work for a single, uninterrupted period of time.</div>
+    <div class="form-row cols-2"><div class="form-group"><label>Anticipated Start Date</label><input type="text" value="06/01/2026" readonly></div><div class="form-group"><label>Expected Return to Work</label><input type="text" value="09/15/2026" readonly></div></div>
+    <div class="form-row cols-2"><div class="form-group"><label>Last Day Worked</label><input type="text" value="05/26/2026" readonly></div><div class="form-group"><label>Hours Missed on Last Day</label><input type="text" value="08:00" readonly></div></div>
+    <div class="wizard-footer"><button class="btn btn-back">Back</button><button class="btn btn-next">Continue</button></div>
+  `,
+
+  // 2: Missed Time
+  () => `
+    <h2>Did you miss any work time before starting this leave?</h2>
+    <p class="subtitle">Log any work days you've already missed for this condition.</p>
+    <div class="yesno"><button class="yesno-btn">No</button><button class="yesno-btn selected">Yes</button></div>
+    <div class="missed-entry"><div class="missed-entry-top"><span class="missed-entry-title">Entry 1</span></div><div class="form-row cols-3"><div class="form-group"><label>Date</label><input type="text" value="04/02/2026" readonly></div><div class="form-group"><label>Hours</label><input type="text" value="08:00" readonly></div><div class="form-group"><label>Reason</label><input type="text" value="Episode" readonly></div></div></div>
+    <div class="missed-entry"><div class="missed-entry-top"><span class="missed-entry-title">Entry 2</span></div><div class="form-row cols-3"><div class="form-group"><label>Date</label><input type="text" value="04/03/2026" readonly></div><div class="form-group"><label>Hours</label><input type="text" value="08:00" readonly></div><div class="form-group"><label>Reason</label><input type="text" value="Treatment" readonly></div></div></div>
+    <div class="missed-entry"><div class="missed-entry-top"><span class="missed-entry-title">Entry 3</span></div><div class="form-row cols-3"><div class="form-group"><label>Date</label><input type="text" value="04/04/2026" readonly></div><div class="form-group"><label>Hours</label><input type="text" value="08:00" readonly></div><div class="form-group"><label>Reason</label><input type="text" value="Treatment" readonly></div></div></div>
+    <div class="wizard-footer"><button class="btn btn-back">Back</button><button class="btn btn-next">Continue</button></div>
+  `,
+
+  // 3: Schedule
+  () => `
+    <h2>What does your typical week look like?</h2>
+    <p class="subtitle">This helps us calculate your leave entitlement accurately.</p>
+    <div class="schedule-grid">
+      <div class="schedule-day"><span class="schedule-day-label">Sun</span><div class="schedule-day-box">0</div></div>
+      <div class="schedule-day"><span class="schedule-day-label">Mon</span><div class="schedule-day-box has-hours">8</div></div>
+      <div class="schedule-day"><span class="schedule-day-label">Tue</span><div class="schedule-day-box has-hours">8</div></div>
+      <div class="schedule-day"><span class="schedule-day-label">Wed</span><div class="schedule-day-box has-hours">8</div></div>
+      <div class="schedule-day"><span class="schedule-day-label">Thu</span><div class="schedule-day-box has-hours">8</div></div>
+      <div class="schedule-day"><span class="schedule-day-label">Fri</span><div class="schedule-day-box has-hours">8</div></div>
+      <div class="schedule-day"><span class="schedule-day-label">Sat</span><div class="schedule-day-box">0</div></div>
+    </div>
+    <div><span class="schedule-total-badge">Weekly total: <strong>40</strong> hrs / week</span></div>
+    <button class="rotation-add">+ Add Week (alternate schedule)</button>
+    <div class="wizard-footer"><button class="btn btn-back">Back</button><button class="btn btn-next">Continue</button></div>
+  `,
+
+  // 4: Medical Condition
+  () => `
+    <h2>Tell us about your condition</h2>
+    <p class="subtitle">Your provider will handle the clinical certification. This helps us start the right process.</p>
+    <label>Will you be hospitalized or need ongoing treatment?</label>
+    <div class="yesno"><button class="yesno-btn selected">Yes</button><button class="yesno-btn">No</button></div>
+    <label>Is your injury/illness related to your job or workplace?</label>
+    <div class="yesno"><button class="yesno-btn">Yes</button><button class="yesno-btn selected">No</button></div>
+    <div class="bordered-section">
+      <div class="section-title">Your Condition Details</div>
+      <div class="form-row cols-2" style="margin-bottom:0"><div class="form-group"><label>Medical Condition (Optional)</label><input type="text" value="Back Surgery" readonly></div><div class="form-group"><label>First Date of Treatment</label><input type="text" value="04/13/2026" readonly></div></div>
+      <div class="form-row cols-2" style="margin-top:16px;margin-bottom:0"><div class="form-group"><label>Next Scheduled Appointment</label><input type="text" value="05/01/2026" readonly></div><div class="form-group"></div></div>
+    </div>
+    <div class="wizard-footer"><button class="btn btn-back">Back</button><button class="btn btn-next">Continue</button></div>
+  `,
+
+  // 5: Medical Cert Consent
+  () => `
+    <h2>Medical certification consent</h2>
+    <p class="subtitle">You are responsible for ensuring your healthcare provider receives and completes the required medical certification form within the designated timeframe.</p>
+    <div class="rl-inline-message">
+      <div class="rl-inline-message-bar"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 6v4" stroke="white" stroke-width="1.3" stroke-linecap="round"/><circle cx="7" cy="4" r="0.75" fill="white"/></svg></div>
+      <div class="rl-inline-message-body"><div class="rl-inline-message-title">Authorization</div><div class="rl-inline-message-text">By selecting "Yes" you authorize Mutual of Omaha to send certifications directly to your provider.</div></div>
+    </div>
+    <label>Authorize Mutual of Omaha to send certifications to your provider?</label>
+    <div class="yesno"><button class="yesno-btn selected">Yes</button><button class="yesno-btn">No</button></div>
+    <div class="wizard-footer"><button class="btn btn-back">Back</button><button class="btn btn-next">Continue</button></div>
+  `,
+
+  // 6: Provider Details
+  () => `
+    <h2>Provider Details</h2>
+    <p class="subtitle">Tell us how to contact your medical provider.</p>
+    <div class="form-row cols-2"><div class="form-group"><label>Facility / Practice Name</label><input type="text" value="St. Luke's Medical Center" readonly></div><div></div></div>
+    <div class="provider-name-row"><div class="form-group"><label>Provider Name</label><input type="text" value="Dr. Dempsey" readonly></div><div class="form-group"><label>Suffix</label><input type="text" value="OB-GYN" readonly></div></div>
+    <div class="form-row cols-2"><div class="form-group"><label>Phone</label><input type="text" value="(816) 457-2934" readonly></div><div class="form-group"><label>Fax</label><input type="text" value="(816) 457-2935" readonly></div></div>
+    <div class="form-row cols-2"><div class="form-group"><label>Email</label><input type="text" value="dempsey.herbett@stlukes.com" readonly></div><div></div></div>
+    <div class="form-row cols-3"><div class="form-group"><label>City</label><input type="text" value="Lee Summit" readonly></div><div class="form-group"><label>State</label><input type="text" value="MO" readonly></div><div class="form-group"><label>ZIP</label><input type="text" value="64064" readonly></div></div>
+    <div class="wizard-footer"><button class="btn btn-back">Back</button><button class="btn btn-next">Continue</button></div>
+  `,
+
+  // 7: Contact
+  () => `
+    <h2>How should we reach you?</h2>
+    <p class="subtitle">We'll use this to send updates about your leave status.</p>
+    <div class="form-row cols-2"><div class="form-group"><label>Email Address</label><input type="text" value="sarah.johnson@company.com" readonly></div><div class="form-group"><label>Phone</label><input type="text" value="(555) 123-4567" readonly></div></div>
+    <div style="margin-bottom:20px">
+      <label>Preferred Communication Method</label>
+      <div class="comm-check"><span class="comm-check-box checked"></span> Email</div>
+      <div class="comm-check"><span class="comm-check-box"></span> Phone (Call)</div>
+      <div class="comm-check"><span class="comm-check-box checked"></span> SMS</div>
+    </div>
+    <div class="bordered-section">
+      <div class="section-title">Temporary Address</div>
+      <div class="form-row cols-2"><div class="form-group"><label>Street</label><input type="text" value="8827 SW 8th Street" readonly></div><div class="form-group"><label>City</label><input type="text" value="Lee Summit" readonly></div></div>
+      <div class="form-row cols-3"><div class="form-group"><label>State</label><input type="text" value="MO" readonly></div><div class="form-group"><label>ZIP</label><input type="text" value="64086" readonly></div><div class="form-group"><label>End Date</label><input type="text" value="08/15/2026" readonly></div></div>
+    </div>
+    <div class="wizard-footer"><button class="btn btn-back">Back</button><button class="btn btn-next">Continue</button></div>
+  `,
+
+  // 8: Benefits
+  () => `
+    <h2>Your estimated leave benefits</h2>
+    <p class="subtitle">These are estimates based on your situation. Final eligibility will be confirmed after review.</p>
+    <div class="eb-card">
+      <div class="eb-section-header"><h3>Coverage Timeline</h3><p>Based on your leave dates and employment</p></div>
+      <div style="margin-top:20px">
+        <div class="eb-tl-row"><span class="eb-tl-row-label">FMLA</span><div class="eb-tl-row-bar"><div class="eb-tl-seg fmla" style="width:46%;left:0">12 weeks</div></div></div>
+        <div class="eb-tl-row"><span class="eb-tl-row-label">STD</span><div class="eb-tl-row-bar"><div class="eb-tl-seg std" style="width:100%;left:0">26 weeks</div></div></div>
+      </div>
+      <div class="eb-tl-legend"><div class="eb-tl-legend-item"><div class="eb-tl-legend-dot" style="background:var(--color-brand-navy)"></div>FMLA</div><div class="eb-tl-legend-item"><div class="eb-tl-legend-dot" style="background:var(--color-brand-primary)"></div>Short-Term Disability</div></div>
+    </div>
+    <div class="eb-breakdown">
+      <div class="eb-breakdown-row"><div class="eb-breakdown-label">FMLA</div><div class="eb-breakdown-detail"><span>Job protection, unpaid</span><span>12 weeks</span></div></div>
+      <div class="eb-breakdown-row"><div class="eb-breakdown-label">Short-Term Disability</div><div class="eb-breakdown-detail"><span>60% pay after 7-day wait</span><span>26 weeks</span></div></div>
+      <div class="eb-breakdown-row"><div class="eb-breakdown-label">Hospital Indemnity</div><div class="eb-breakdown-detail"><span>Lump sum if hospitalized</span><span>—</span></div></div>
+      <div class="eb-breakdown-footer"><span>Estimated total: up to 26 weeks</span><span>3 programs</span></div>
+    </div>
+    <div class="wizard-footer"><button class="btn btn-back">Back</button><button class="btn btn-next">Continue</button></div>
+  `,
+
+  // 9: Review
+  () => `
+    <h2>Review and submit</h2>
+    <p class="subtitle">Please review your information before submitting.</p>
+    <div class="br-section"><div class="br-section-header"><h3>Employee Information</h3><span style="font-size:12px;color:var(--color-text-placeholder)">Provided by employer</span></div><div class="br-grid"><div><div class="br-field-label">Name</div><div class="br-field-value">Sarah Johnson</div></div><div><div class="br-field-label">Employee ID</div><div class="br-field-value">EMP-2026-4821</div></div><div><div class="br-field-label">Employer</div><div class="br-field-value">EnterpriseCorp Inc.</div></div><div><div class="br-field-label">Occupation</div><div class="br-field-value">Senior Marketing Manager</div></div></div></div>
+    <div class="br-section"><div class="br-section-header"><h3>Absence Details</h3><span class="br-section-edit">Edit</span></div><div class="br-grid"><div><div class="br-field-label">Reason</div><div class="br-field-value">Own Illness or Injury</div></div><div><div class="br-field-label">Type</div><div class="br-field-value">Continuous</div></div><div><div class="br-field-label">Start Date</div><div class="br-field-value">Jun 1, 2026</div></div><div><div class="br-field-label">Expected Return</div><div class="br-field-value">Sep 15, 2026</div></div></div></div>
+    <div class="br-section"><div class="br-section-header"><h3>Healthcare Provider</h3><span class="br-section-edit">Edit</span></div><div class="br-grid"><div><div class="br-field-label">Provider</div><div class="br-field-value">Dr. Dempsey</div></div><div><div class="br-field-label">Facility</div><div class="br-field-value">St. Luke's Medical Center</div></div><div><div class="br-field-label">Phone</div><div class="br-field-value">(816) 457-2934</div></div><div><div class="br-field-label">Email</div><div class="br-field-value">dempsey.herbett@stlukes.com</div></div></div></div>
+    <div class="wizard-footer"><button class="btn btn-back">Back</button><button class="btn btn-submit">Submit</button></div>
+  `,
+
+  // 10: Confirmation
+  () => `
+    <div class="success-state">
+      <div class="success-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="success-header"><h2>Leave request submitted</h2><p>Reference: NTN-4821</p><p>Your case is under review</p></div>
+      <div class="success-dates-grid">
+        <div class="success-date-box"><div class="success-date-label">Start Date</div><div class="success-date-value">Jun 1, 2026</div></div>
+        <div class="success-date-box"><div class="success-date-label">Expected Return</div><div class="success-date-value">Sep 15, 2026</div></div>
+        <div class="success-date-box"><div class="success-date-label">Duration</div><div class="success-date-value">106 days</div></div>
+      </div>
+      <div class="success-cases-flat">
+        <div class="success-case-flat-item"><div><div class="success-case-flat-type">Leave Case — NTN-4821-ABC-01</div><div class="success-case-flat-title">Medical Leave (Own Illness)</div></div><span class="success-case-flat-badge">Pending</span></div>
+        <div class="success-case-flat-item"><div><div class="success-case-flat-type">Claim Case — NTN-4821-GDC-02</div><div class="success-case-flat-title">Short-Term Disability</div></div><span class="success-case-flat-badge">Pending</span></div>
+        <div class="success-case-flat-item"><div><div class="success-case-flat-type">Supplemental — NTN-4821-ABC-03</div><div class="success-case-flat-title">Hospital Indemnity</div></div><span class="success-case-flat-badge">Pending</span></div>
+      </div>
+      <div class="success-next-steps"><h3>What happens next</h3><ul class="success-next-list"><li>Your manager will be notified of your upcoming leave</li><li>We're reviewing your eligibility — we'll update you within 1–2 business days</li><li>You may be asked to upload supporting documents</li><li>Track your leave status anytime from the overview</li></ul></div>
+      <div class="success-footer"><button class="btn btn-back">View All Cases</button><button class="btn btn-next">View Case Details</button></div>
+    </div>
+  `,
+];
+
+// Init
+render();
+scheduleNext();
+</script>
+</body>
+</html>
