@@ -1612,13 +1612,25 @@
       const vh = window.innerHeight - hh - pad * 2;  // LOCAL PATCH: header + padding
       const s = Math.min(vw / this.designWidth, vh / this.designHeight);
       this._canvas.style.transform = `scale(${s})`;
-      // LOCAL PATCH (portfolio): --deck-slide-edge repaints the canvas ring in
-      // a colour that reads on a light stage (the stock ring is white, for the
-      // black one). Width is divided by the scale so it lands as a true 1px
-      // hairline at any viewport. Unset -> the stock ring is left alone.
+      // LOCAL PATCH (portfolio): slide edge, corner radius and drop shadow.
+      // The stock ring is white at 12%, for the component's black stage, and
+      // is invisible on a light one. With none of the three vars set the
+      // canvas is left exactly as the component styled it.
       const edge = cs.getPropertyValue('--deck-slide-edge').trim();
-      if (edge && s > 0) {
-        this._canvas.style.boxShadow = '0 0 0 ' + (1 / s) + 'px ' + edge;
+      const shad = cs.getPropertyValue('--deck-slide-shadow').trim();
+      const rad  = parseFloat(cs.getPropertyValue('--deck-slide-radius')) || 0;
+      if (s > 0 && (edge || shad || rad || this._pfStyled)) {
+        // Assign unconditionally, including empty resets: a var going to 0 or
+        // transparent must clear the inline value a previous fit wrote, not
+        // just skip over it. Lengths are divided by the scale so they land at
+        // their authored size on screen instead of shrinking with the canvas.
+        this._pfStyled = true;
+        const ring = edge && edge !== 'transparent' ? '0 0 0 ' + (1 / s) + 'px ' + edge : '';
+        const soft = shad ? '0 ' + (6 / s) + 'px ' + (28 / s) + 'px ' + shad : '';
+        const box  = [ring, soft].filter(Boolean).join(', ');
+        this._canvas.style.boxShadow    = box || 'none';
+        this._canvas.style.borderRadius = rad ? (rad / s) + 'px' : '';
+        this._canvas.style.overflow     = rad ? 'hidden' : '';
       }
     }
 
