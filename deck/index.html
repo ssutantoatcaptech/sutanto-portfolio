@@ -15,10 +15,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" />
 <style>
-  body { margin: 0; background: #e8e6e1; }
+  body { margin: 0; background: #F1F3F7; }
   /* the component paints :host{background:#000}; an outer-tree rule wins,
      swapping the black letterbox for warm paper now that slides are white */
-  deck-stage { background: #e8e6e1; }
+  deck-stage { background: #F1F3F7; }
   :root { --deck-stage-pad: 48px; }
   a { color: #b68235; text-underline-offset: 3px; }
   a:hover { color: #7d5411; }
@@ -1123,7 +1123,7 @@
      exactly one copy, outside React's tree. ---- */
   var CSS = [
     "#deck-chrome,#dk-index{font-family:ui-sans-serif,system-ui,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji'}",
-    ".dk-nav{font-family:ui-sans-serif,system-ui,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji'}",
+    ".dk-nav,.dk-chip,.dk-view,.dk-arrow{font-family:ui-sans-serif,system-ui,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji'}",
     "#deck-chrome a,#deck-chrome button,#dk-index button{transition:color .2s,border-color .2s,background .2s}",
     "#dk-index[hidden]{display:none!important}",
     ".dk-link:hover,#dk-index-btn:hover,#dk-index-close:hover{color:#176EBF!important}",
@@ -1155,9 +1155,9 @@
     '<div id="dk-filters" role="group" aria-label="Filter by industry" style="display:flex;align-items:center;gap:7px;padding:0 30px 10px;overflow-x:auto"></div>' +
     '<div style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:9px 30px 10px;border-top:1px solid rgba(32,31,29,.09)">' +
       '<div style="display:flex;align-items:center;gap:12px;flex:none">' +
-        '<button id="dk-prev" class="dk-arrow" type="button" aria-label="Previous work" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(32,31,29,.72);background:none;border:1px solid rgba(32,31,29,.22);border-radius:999px;width:25px;height:25px;line-height:1;padding:0;cursor:pointer">&#9664;</button>' +
+        '<button id="dk-prev" class="dk-arrow" type="button" aria-label="Previous work" style="font-size:11px;color:rgba(32,31,29,.72);background:none;border:1px solid rgba(32,31,29,.22);border-radius:999px;width:25px;height:25px;line-height:1;padding:0;cursor:pointer">&#9664;</button>' +
         '<span id="dk-title" style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:20px;color:#201f1d;white-space:nowrap;min-width:180px"></span>' +
-        '<button id="dk-next" class="dk-arrow" type="button" aria-label="Next work" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(32,31,29,.72);background:none;border:1px solid rgba(32,31,29,.22);border-radius:999px;width:25px;height:25px;line-height:1;padding:0;cursor:pointer">&#9654;</button>' +
+        '<button id="dk-next" class="dk-arrow" type="button" aria-label="Next work" style="font-size:11px;color:rgba(32,31,29,.72);background:none;border:1px solid rgba(32,31,29,.22);border-radius:999px;width:25px;height:25px;line-height:1;padding:0;cursor:pointer">&#9654;</button>' +
         '<span id="dk-views" role="group" aria-label="Slide within work" style="display:inline-flex;margin-left:4px;border:1px solid rgba(32,31,29,.22);border-radius:999px;overflow:hidden"></span>' +
       '</div>' +
       '<button id="dk-present" type="button" title="Full screen slideshow (F)" style="display:inline-flex;align-items:center;gap:9px;flex:none;background:#176EBF;color:#fff;border:0;border-radius:999px;padding:7px 17px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer">Enlarge<span style="font-size:12px">&#9974;</span></button>' +
@@ -1168,7 +1168,7 @@
     '<div style="max-width:880px;margin:0 auto;padding:52px 30px 80px">' +
       '<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">' +
         '<span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:rgba(32,31,29,.6);padding-bottom:9px;border-bottom:2px solid #176EBF">Slide index</span>' +
-        '<button id="dk-index-close" type="button" style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(32,31,29,.6);background:none;border:0;cursor:pointer">Close &#10005;</button>' +
+        '<button id="dk-index-close" class="dk-nav" type="button" style="font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(32,31,29,.6);background:none;border:0;cursor:pointer">Close &#10005;</button>' +
       '</div>' +
       '<div id="dk-index-list"></div>' +
     '</div>' +
@@ -1272,7 +1272,7 @@
     var b = document.createElement('button');
     b.type = 'button'; b.textContent = label; b.className = 'dk-chip'; if (title) b.title = title;
     b.setAttribute('aria-pressed', on ? 'true' : 'false');
-    b.style.cssText = 'font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.12em;' +
+    b.style.cssText = 'font-size:10.5px;letter-spacing:.12em;' +
       'text-transform:uppercase;white-space:nowrap;padding:5px 13px;border-radius:999px;cursor:pointer;' +
       'transition:background .2s,color .2s,border-color .2s;' +
       (on ? 'background:' + BRASS + ';color:#fff;border:1px solid ' + BRASS + ';'
@@ -1300,7 +1300,7 @@
       b.type = 'button'; b.textContent = p[1]; b.className = 'dk-view';
       b.disabled = n < 0;
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
-      b.style.cssText = 'font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.12em;' +
+      b.style.cssText = 'font-size:10.5px;letter-spacing:.12em;' +
         'text-transform:uppercase;padding:5px 14px;border:0;cursor:' + (n < 0 ? 'default' : 'pointer') + ';' +
         'transition:background .2s,color .2s;' + (i ? 'border-left:1px solid ' + LINE + ';' : '') +
         (n < 0 ? 'background:transparent;color:rgba(32,31,29,.28);'
@@ -1332,7 +1332,8 @@
       [['story', 'Story'], ['details', 'Details']].forEach(function (p) {
         var b = document.createElement('button');
         b.type = 'button'; b.textContent = p[1]; b.className = 'dk-chip';
-        b.style.cssText = 'font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.1em;' +
+        b.className = 'dk-chip';
+        b.style.cssText = 'font-size:10px;letter-spacing:.1em;' +
           'text-transform:uppercase;padding:4px 11px;border:1px solid ' + LINE + ';border-radius:999px;' +
           'background:transparent;color:' + DIM + ';cursor:pointer;transition:color .2s,border-color .2s';
         b.addEventListener('click', function () { goWork(n, p[0]); toggleIndex(false); });
