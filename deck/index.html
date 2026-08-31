@@ -6,8 +6,6 @@
 <script src="./support.js"></script>
 </head>
 <body>
-<a href="../Portfolio%20Landing.dc.html" id="back-to-portfolio" style="position:fixed;left:0;bottom:0;width:var(--deck-rail-w,188px);z-index:9999;box-sizing:border-box;display:block;text-align:center;font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(242,240,234,.58);text-decoration:none;padding:14px 8px;background:#141414;border-top:1px solid rgba(242,240,234,.14);transition:color .2s,background .2s" style-hover="color:#b68235;background:#1c1c1c">&#8592; Portfolio</a>
-
 <x-dc>
 <helmet>
 <title>Steve Sutanto — Product Design Portfolio</title>
@@ -17,14 +15,17 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" />
 <style>
-  body { margin: 0; background: #201f1d; }
+  body { margin: 0; background: #e8e6e1; }
+  /* the component paints :host{background:#000}; an outer-tree rule wins,
+     swapping the black letterbox for warm paper now that slides are white */
+  deck-stage { background: #e8e6e1; }
   a { color: #b68235; text-underline-offset: 3px; }
   a:hover { color: #7d5411; }
 </style>
 </helmet>
 <x-import component-from-global-scope="deck-stage" from="./deck-stage.js" width="1920" height="1080" hint-size="100%,100%">
 
-<section data-label="Cover" data-screen-label="01" style="display:flex;flex-direction:column;justify-content:center;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;padding:100px 120px;text-wrap:pretty;overflow:hidden">
+<section data-label="Cover" data-screen-label="01" style="display:flex;flex-direction:column;justify-content:center;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;padding:100px 120px;text-wrap:pretty;overflow:hidden">
   <div style="display:flex;align-items:center;gap:60px;margin:0">
     <div style="position:relative;width:280px;height:280px;flex:none;border-radius:50%;overflow:hidden;background:#eae9e9;box-shadow:0 0 0 1px rgba(32,31,29,.14)">
       <img src="img/s01-portrait.jpg" alt="Portrait of Steve Sutanto" style="width:100%;height:100%;object-fit:cover;object-position:50% 34%;display:block;filter:saturate(.9) contrast(1.02)" />
@@ -51,7 +52,7 @@
   </div>
 </section>
 
-<section data-label="Leave of Absence — Story" data-screen-label="02" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Leave of Absence — Story" data-screen-label="02" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="insurance">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">01</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Client Story</span>
@@ -62,6 +63,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Modernizing the Leave of Absence Member Experience</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">National Insurance Provider</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Insurance</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">Partnered with product, business, and operations teams to redesign the Leave of Absence experience for employees managing disability, Paid Family Medical Leave, and workplace absence programs — simplifying complex workflows and creating a scalable digital foundation for future growth.</p>
     </div>
@@ -83,7 +85,7 @@
   </div>
 </section>
 
-<section data-label="Leave of Absence — Details" data-screen-label="03" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Leave of Absence — Details" data-screen-label="03" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="insurance">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">01</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Project Details</span>
@@ -94,6 +96,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Modernizing the Leave of Absence Member Experience</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">National Insurance Provider</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Insurance</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">I turned complex Leave of Absence concepts into validated digital experiences through AI-accelerated design, iterative prototyping, and continuous stakeholder collaboration — clarifying requirements early and delivering scalable solutions within tight timelines.</p>
       <div style="display:flex;align-items:center;gap:20px;padding-top:4px">
@@ -120,7 +123,7 @@
   </div>
 </section>
 
-<section data-label="Solutions Portal — Story" data-screen-label="04" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Solutions Portal — Story" data-screen-label="04" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="professional-svcs">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">02</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Client Story</span>
@@ -131,6 +134,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Bridging Visibility, Governance, and Speed for Client-Ready Solutions</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">National Consulting Firm</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Professional Services</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">Go-to-market teams relied on a buried SharePoint page and a manual Excel tracker to find and share solutions — visibility was limited, ownership unclear, prep time slow. I designed a modern, governed Solutions Portal that centralizes content, improves freshness, and lets account leads prepare for client conversations quickly and confidently.</p>
     </div>
@@ -151,7 +155,7 @@
   </div>
 </section>
 
-<section data-label="Solutions Portal — Details" data-screen-label="05" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Solutions Portal — Details" data-screen-label="05" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="professional-svcs">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">02</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Project Details</span>
@@ -162,6 +166,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Bridging Visibility, Governance, and Speed for Client-Ready Solutions</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">National Consulting Firm</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Professional Services</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">I defined the vision and structure for the portal end to end — from experience strategy through navigation, detail pages, and the content-health model that keeps the library trustworthy.</p>
       <div style="display:flex;align-items:center;gap:20px;padding-top:4px">
@@ -184,7 +189,7 @@
   </div>
 </section>
 
-<section data-label="Observability — Story" data-screen-label="06" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Observability — Story" data-screen-label="06" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="financial-services">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">03</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Client Story</span>
@@ -195,6 +200,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Bridging the Observability and Reliability Gap for Error-Free Applications</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">Fortune 500 Financial Services</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Financial Services</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">The bank's Operational Excellence team set out to elevate an engineering resiliency platform unifying system observability and application reliability. Built for insight seekers and builder-fixers, we delivered a seamless experience with intuitive UI patterns.</p>
     
@@ -220,7 +226,7 @@
   </div>
 </section>
 
-<section data-label="Observability — Details" data-screen-label="07" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Observability — Details" data-screen-label="07" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="financial-services">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">03</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Project Details</span>
@@ -231,6 +237,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Bridging the Observability and Reliability Gap for Error-Free Applications</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">Fortune 500 Financial Services</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Financial Services</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">I worked at the seam between design and engineering — standardizing patterns, opening a weekly forum for work in progress, and keeping product and technology stakeholders aligned on scope.</p>
       <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding-top:4px">
@@ -255,7 +262,7 @@
   </div>
 </section>
 
-<section data-label="Embedded Finance — Story" data-screen-label="08" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Embedded Finance — Story" data-screen-label="08" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="financial-services">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">04</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Client Story</span>
@@ -266,6 +273,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Embedded Finance, Part One: Strategic Product Discovery and User Onboarding</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">Fortune 500 Financial Services</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Financial Services</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">As design partner for a top-10 U.S. bank, I took a strategic role in product discovery for an early-stage card commercialization effort — establishing an embedded finance platform for external eCommerce merchants, flexible enough to be reconfigured for internal lines of business.</p>
     </div>
@@ -284,7 +292,7 @@
   </div>
 </section>
 
-<section data-label="Embedded Finance — Details" data-screen-label="09" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Embedded Finance — Details" data-screen-label="09" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="financial-services">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">04</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Project Details</span>
@@ -295,6 +303,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Embedded Finance, Part One: Strategic Product Discovery and User Onboarding</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">Fortune 500 Financial Services</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Financial Services</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">I partnered with the bank's new line-of-business product executives, business analysts, and technical product owners to assess and advise on product-market fit through a range of research and assessment activities.</p>
       <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding-top:4px">
@@ -318,7 +327,7 @@
   </div>
 </section>
 
-<section data-label="IAM — Story" data-screen-label="10" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="IAM — Story" data-screen-label="10" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="financial-services">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">05</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Client Story</span>
@@ -329,6 +338,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Embedded Finance: Identity and Access Management</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">Fortune 500 Financial Services</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Financial Services</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">Focused on identity, access, and authentication — defining how merchants securely register, verify their identity, and interact with the platform under enterprise security constraints. The work translated discovery insights into system-level IAM behaviors, addressing real scenarios such as duplicate accounts and secure recovery paths.</p>
     </div>
@@ -348,7 +358,7 @@
   </div>
 </section>
 
-<section data-label="IAM — Details" data-screen-label="11" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="IAM — Details" data-screen-label="11" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="financial-services">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">05</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Project Details</span>
@@ -359,6 +369,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Embedded Finance: Identity and Access Management</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">Fortune 500 Financial Services</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Financial Services</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">I led end-to-end IAM experience design — defining authentication rules, states, and edge cases with Product, aligning flows to IAM architecture with Engineering, and working with Security, Risk, and Compliance on regulatory alignment.</p>
       <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding-top:4px">
@@ -383,7 +394,7 @@
   </div>
 </section>
 
-<section data-label="Model Hub — Story" data-screen-label="12" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Model Hub — Story" data-screen-label="12" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="financial-services">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">06</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Client Story</span>
@@ -394,6 +405,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Optimizing the Data Modeling Experience</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">Fortune 500 Financial Services</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Financial Services</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">The bank's Core Data team wanted to improve Model Hub, their existing data modeling platform. Used by both data analysts and modelers, it aimed to be a single place to manage data modeling — providing reliable output and reducing reliance on a third-party platform.</p>
     </div>
@@ -412,7 +424,7 @@
   </div>
 </section>
 
-<section data-label="Model Hub — Details" data-screen-label="13" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Model Hub — Details" data-screen-label="13" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="financial-services">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">06</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Project Details</span>
@@ -423,6 +435,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Optimizing the Data Modeling Experience</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">Fortune 500 Financial Services</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Financial Services</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">I partnered with the Core Data product manager to enhance Model Hub — optimizing and testing the platform with end users, then feeding their feedback back into the experience.</p>
       <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding-top:4px">
@@ -446,7 +459,7 @@
   </div>
 </section>
 
-<section data-label="Clinical Quality — Story" data-screen-label="14" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Clinical Quality — Story" data-screen-label="14" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="healthcare">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">07</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Client Story</span>
@@ -457,6 +470,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Revamping the Clinical Quality Tool Experience</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">Top Healthcare Technology</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Healthcare</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">The new Clinical Quality tool is changing how the clinical quality team works — eliminating manual, time-consuming processes and introducing a streamlined digital solution powered by automation and a modern web experience.</p>
     
@@ -481,7 +495,7 @@
   </div>
 </section>
 
-<section data-label="Clinical Quality — Details" data-screen-label="15" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Clinical Quality — Details" data-screen-label="15" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="healthcare">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">07</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Project Details</span>
@@ -492,6 +506,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Revamping the Clinical Quality Tool Experience</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">Top Healthcare Technology</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Healthcare</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">Grounded in systems thinking and deeply involved in product discovery, I engaged business stakeholders regularly and applied Lean UX principles to continuously test and refine designs with end users.</p>
       <div style="display:flex;align-items:center;gap:20px;padding-top:4px">
@@ -517,7 +532,7 @@
   </div>
 </section>
 
-<section data-label="Record Submission — Story" data-screen-label="16" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Record Submission — Story" data-screen-label="16" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="healthcare">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">08</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Client Story</span>
@@ -528,6 +543,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Improving Turnaround Time: Streamlining Medical Record Submission</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">Top Healthcare Technology</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Healthcare</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">The new Electronic Document Submission tool is changing how clinical quality and data control teams manage medical records — addressing inefficiencies in the current process with a secure, streamlined digital path.</p>
     
@@ -552,7 +568,7 @@
   </div>
 </section>
 
-<section data-label="Record Submission — Details" data-screen-label="17" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Record Submission — Details" data-screen-label="17" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="healthcare">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">08</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Project Details</span>
@@ -563,6 +579,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Improving Turnaround Time: Streamlining Medical Record Submission</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">Top Healthcare Technology</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Healthcare</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">I researched and designed against the challenges of receiving medical records from healthcare providers. The goal was a 30-day turnaround on case completion, against an average of 14 days just to get the records in hand.</p>
       <div style="display:flex;align-items:center;gap:20px;padding-top:4px">
@@ -590,7 +607,7 @@
   </div>
 </section>
 
-<section data-label="Pricing Automation — Story" data-screen-label="18" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Pricing Automation — Story" data-screen-label="18" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="retail-ecommerce">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">09</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Client Story</span>
@@ -601,6 +618,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Salesforce: Pricing Process Automation</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">Top Online Equipment Rental</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Retail & eCommerce</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">Designed the Pricing Process Automation tool's shift from Vendavo to Salesforce, focused on improving price renewal, extension, and cancellation for sales teams, managers, and administrators.</p>
     </div>
@@ -620,7 +638,7 @@
   </div>
 </section>
 
-<section data-label="Pricing Automation — Details" data-screen-label="19" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Pricing Automation — Details" data-screen-label="19" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="retail-ecommerce">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">09</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Project Details</span>
@@ -631,6 +649,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Salesforce: Pricing Process Automation</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">Top Online Equipment Rental</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Retail & eCommerce</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">I collaborated closely with the Salesforce architect, product owner, developers, and subject-matter experts — keeping communication active before, during, and after each release.</p>
       <div style="display:flex;align-items:center;gap:20px;padding-top:4px">
@@ -654,7 +673,7 @@
   </div>
 </section>
 
-<section data-label="Pfizer — Story" data-screen-label="20" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Pfizer — Story" data-screen-label="20" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="healthcare">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">10</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Client Story</span>
@@ -665,6 +684,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Building an End-to-End Digital Clinical Trial Recruitment Platform</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">Pfizer</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Healthcare</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">Pfizer Global Product Development set out to create a single digital platform for clinical trial participants, merging multiple online resources so information seekers could find relevant trials and sign up.</p>
     
@@ -688,7 +708,7 @@
   </div>
 </section>
 
-<section data-label="Pfizer — Details" data-screen-label="21" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Pfizer — Details" data-screen-label="21" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="healthcare">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">10</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Project Details</span>
@@ -699,6 +719,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Building an End-to-End Digital Clinical Trial Recruitment Platform</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">Pfizer</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Healthcare</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">I collaborated with Pfizer subject-matter experts and marketing stakeholders to develop the platform for information seekers, building on extensive existing research as the baseline for a feature roadmap.</p>
       <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding-top:4px">
@@ -725,7 +746,7 @@
   </div>
 </section>
 
-<section data-label="eHarmony — Story" data-screen-label="22" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="eHarmony — Story" data-screen-label="22" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="marketplaces">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">11</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Client Story</span>
@@ -736,6 +757,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Reimagining First Connections: The "Makes and Breaks" Chat Feature</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">eHarmony</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Marketplaces</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">Makes and Breaks helps eHarmony members accelerate compatibility discovery by surfacing key values and preferences early in a conversation. The ice-breaking tool sparks meaningful dialogue and quickly establishes mutual alignment — so people can decide with confidence whether to pursue a connection.</p>
     </div>
@@ -753,7 +775,7 @@
   </div>
 </section>
 
-<section data-label="eHarmony — Details" data-screen-label="23" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="eHarmony — Details" data-screen-label="23" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="marketplaces">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">11</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Project Details</span>
@@ -764,6 +786,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Reimagining First Connections: The "Makes and Breaks" Chat Feature</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">eHarmony</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Marketplaces</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">I worked with the product manager and design team to rethink early-stage conversations — helping members find shared values or dealbreakers quickly, and making it easier to decide whether to move forward or move on.</p>
       <div style="display:flex;align-items:center;gap:20px;padding-top:4px">
@@ -790,7 +813,7 @@
   </div>
 </section>
 
-<section data-label="GetCraft — Story" data-screen-label="24" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="GetCraft — Story" data-screen-label="24" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="marketplaces">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">12</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Client Story</span>
@@ -801,6 +824,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Simplifying Creative Collaboration: A Chat Feature for GetCraft</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">GetCraft</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Marketplaces</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">At GetCraft we built a premium marketplace connecting clients with freelance creators across Southeast Asia. One feature I helped lead was a chat tool to streamline communication, feedback, and work submissions — all inside the platform.</p>
     </div>
@@ -819,7 +843,7 @@
   </div>
 </section>
 
-<section data-label="GetCraft — Details" data-screen-label="25" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="GetCraft — Details" data-screen-label="25" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="marketplaces">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">12</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Project Details</span>
@@ -830,6 +854,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Simplifying Creative Collaboration: A Chat Feature for GetCraft</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">GetCraft</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Marketplaces</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">I led design for a chat feature aimed at improving collaboration between clients and freelance creators — streamlining communication, enabling quicker feedback loops, and supporting project delivery inside the marketplace.</p>
       <div style="display:flex;align-items:center;gap:20px;padding-top:4px">
@@ -855,7 +880,7 @@
   </div>
 </section>
 
-<section data-label="Ninja Van — Story" data-screen-label="26" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Ninja Van — Story" data-screen-label="26" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="logistics">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">13</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Client Story</span>
@@ -866,6 +891,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Optimizing the Delivery Driver's Parcel Pick-Up and Drop-Off Experience</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">Ninja Van</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Logistics</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">Ninja Van, a tech-enabled delivery service in Southeast Asia, partnered with Grab Express as a primary third-party logistics carrier. The pilot centered on same-day delivery and included an in-person dry run to guarantee a seamless pick-up and drop-off and surface issues before release.</p>
     </div>
@@ -883,7 +909,7 @@
   </div>
 </section>
 
-<section data-label="Ninja Van — Details" data-screen-label="27" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Ninja Van — Details" data-screen-label="27" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="logistics">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">13</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Project Details</span>
@@ -894,6 +920,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Optimizing the Delivery Driver's Parcel Pick-Up and Drop-Off Experience</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">Ninja Van</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Logistics</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">I collaborated closely with Grab and Ninja Van's product owners and drivers to run in-person feature tests and mock pick-up and drop-off scenarios, using contextual inquiry methods.</p>
       <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding-top:4px">
@@ -918,7 +945,7 @@
   </div>
 </section>
 
-<section data-label="Login Modal — Story" data-screen-label="28" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Login Modal — Story" data-screen-label="28" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="retail-ecommerce">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">14</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Client Story</span>
@@ -929,6 +956,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Boosting Engagement: Amplifying the Login and Registration Modal</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">United Rentals</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Retail & eCommerce</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">The United Rentals product team set out to redesign the legacy sign-in and registration modal to highlight precise location and equipment availability, reducing catalog page drop-offs — especially among newcomers.</p>
       <div style="display:flex;flex-direction:column;gap:8px;border-top:1px solid rgba(32,31,29,.18);padding-top:24px;margin-top:4px">
@@ -951,7 +979,7 @@
   </div>
 </section>
 
-<section data-label="Login Modal — Details" data-screen-label="29" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Login Modal — Details" data-screen-label="29" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="retail-ecommerce">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">14</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Project Details</span>
@@ -962,6 +990,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Boosting Engagement: Amplifying the Login and Registration Modal</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">United Rentals</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Retail & eCommerce</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">I collaborated closely with the product owner and analytics team to understand context requirements and analyze existing data, laying a solid foundation for the revamp.</p>
       <div style="display:flex;align-items:center;gap:20px;padding-top:4px">
@@ -985,7 +1014,7 @@
   </div>
 </section>
 
-<section data-label="Checkout Analysis — Story" data-screen-label="30" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Checkout Analysis — Story" data-screen-label="30" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="retail-ecommerce">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">15</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Client Story</span>
@@ -996,6 +1025,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Online Checkout Experience: A Competitive Analysis</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">United Rentals</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Retail & eCommerce</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">The United Rentals product team wanted to optimize the online checkout experience to showcase new offerings — including insurance, repair services, and discounted equipment purchases.</p>
     </div>
@@ -1014,7 +1044,7 @@
   </div>
 </section>
 
-<section data-label="Checkout Analysis — Details" data-screen-label="31" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#f3f2f2;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty">
+<section data-label="Checkout Analysis — Details" data-screen-label="31" style="display:grid;grid-template-columns:980px 1fr;grid-template-rows:auto auto minmax(0,1fr) auto;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;text-wrap:pretty" data-industry="retail-ecommerce">
   <div style="display:flex;align-items:baseline;gap:22px;grid-column:1;grid-row:1;padding:62px 68px 0 96px">
     <span style="font-family:'Cormorant Garamond',Garamond,serif;font-size:26px;color:#b68235;font-variant-numeric:tabular-nums;letter-spacing:.04em">15</span>
     <span style="font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#201f1d">Project Details</span>
@@ -1025,6 +1055,7 @@
       <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:400;font-size:62px;line-height:1.08;letter-spacing:-.01em;margin:0">Online Checkout Experience: A Competitive Analysis</h2>
       <div style="display:flex;align-items:center;gap:16px;margin-top:-4px">
         <span style="font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:#7d7979">United Rentals</span>
+        <span data-deck-industry style="font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#7d5411;border:1px solid rgba(182,130,53,.55);padding:3px 14px;border-radius:4px;white-space:nowrap">Retail & eCommerce</span>
       </div>
       <p style="font-size:25px;line-height:1.48;margin:0;color:#444141">I partnered with unitedrentals.com product stakeholders to understand business needs and the opportunity to broaden service offerings with insurance, repair services, and discounted equipment purchases.</p>
       <div style="display:flex;align-items:center;gap:20px;padding-top:4px">
@@ -1047,19 +1078,369 @@
   </div>
 </section>
 
-<section data-label="Close" data-screen-label="32" style="display:flex;flex-direction:column;justify-content:center;background:#191817;color:#f3f2f2;font-family:'Lora',Georgia,serif;padding:96px 100px;text-wrap:pretty">
-  <span style="font-size:24px;letter-spacing:.2em;text-transform:uppercase;color:#e1ad66">Thank you</span>
+<section data-label="Close" data-screen-label="32" style="display:flex;flex-direction:column;justify-content:center;background:#fff;color:#201f1d;font-family:'Lora',Georgia,serif;padding:96px 100px;text-wrap:pretty">
+  <span style="font-size:24px;letter-spacing:.2em;text-transform:uppercase;color:#7d5411">Thank you</span>
   <h2 style="font-family:'Cormorant Garamond',Garamond,serif;font-weight:300;font-size:118px;line-height:1.02;letter-spacing:-.02em;margin:34px 0 0;max-width:20ch">Let's talk about the work.</h2>
-  <div style="height:1px;background:rgba(243,242,242,.24);margin:52px 0"></div>
+  <div style="height:1px;background:rgba(32,31,29,.16);margin:52px 0"></div>
   <div style="display:flex;gap:88px;align-items:baseline">
-    <span style="font-size:30px;color:#f3f2f2">Steve Sutanto</span>
-    <span style="font-size:28px;color:#bab6b6">stevesutanto79@gmail.com</span>
-    <span style="font-size:28px;color:#bab6b6">Kansas City, MO</span>
-    <span style="font-size:28px;color:#e1ad66">stevesutanto.co</span>
+    <span style="font-size:30px;color:#201f1d">Steve Sutanto</span>
+    <span style="font-size:28px;color:#7d7979">stevesutanto79@gmail.com</span>
+    <span style="font-size:28px;color:#7d7979">Kansas City, MO</span>
+    <span style="font-size:28px;color:#7d5411">stevesutanto.co</span>
   </div>
 </section>
 
 </x-import>
 </x-dc>
-</body>
+
+<script>
+/* ── Deck web navigation ───────────────────────────────────────────────────
+   Sits on top of the deck-stage component using only its public API
+   (index / length / goTo / slidechange). Filtering is kept entirely in this
+   layer: data-deck-skip is unusable here because goTo() ignores it while
+   _advance() honours it, which would desync our counter from the component's.
+   Industry filter state lives in the query string because the component owns
+   the hash and rewrites it via replaceState on every slide change.        */
+(function () {
+  'use strict';
+
+  var INDUSTRIES = [
+    ['financial-services', 'Financial Services'],
+    ['healthcare',         'Healthcare'],
+    ['retail-ecommerce',   'Retail & eCommerce'],
+    ['marketplaces',       'Marketplaces'],
+    ['insurance',          'Insurance'],
+    ['logistics',          'Logistics'],
+    ['professional-svcs',  'Professional Services']
+  ];
+  var BRASS = '#7d5411', DIM = 'rgba(32,31,29,.62)', LINE = 'rgba(32,31,29,.22)';
+
+  /* ---- chrome is injected here, not authored in the HTML: the DC/React
+     runtime templates markup found in the document and was rendering a
+     second copy of it inside #dc-root. Appending to <body> at runtime keeps
+     exactly one copy, outside React's tree. ---- */
+  var CSS = [
+    "#deck-chrome,#dk-index{font-family:'Lora',Georgia,serif}",
+    "#deck-chrome a,#deck-chrome button,#dk-index button{transition:color .2s,border-color .2s,background .2s}",
+    "#dk-index[hidden]{display:none!important}",
+    ".dk-link:hover,#dk-index-btn:hover,#dk-index-close:hover{color:#7d5411!important}",
+    ".dk-arrow:not(:disabled):hover{color:#7d5411!important;border-color:rgba(182,130,53,.55)!important}",
+    ".dk-chip:not([aria-pressed='true']):hover{color:#7d5411!important;border-color:rgba(182,130,53,.55)!important}",
+    ".dk-view:not([aria-pressed='true']):not(:disabled):hover{background:rgba(182,130,53,.10)!important;color:#7d5411!important}",
+    ".dk-row:hover .dk-row-title{padding-left:8px}",
+    ".dk-row-title{transition:padding-left .25s}",
+    "#deck-chrome button:focus-visible,#dk-index button:focus-visible,#deck-chrome a:focus-visible{outline:2px solid #7d5411;outline-offset:2px}",
+    ".dk-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}",
+    "@media (prefers-reduced-motion:reduce){#deck-chrome *,#dk-index *{transition:none!important}}",
+    "@media print{#deck-chrome,#dk-index{display:none!important}}"
+  ].join("\n");
+
+  var MARKUP =
+  '<div id="deck-chrome" style="position:fixed;top:0;left:0;right:0;z-index:5;background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid rgba(32,31,29,.16)">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;gap:32px;padding:13px 30px 9px">' +
+      '<a href="../Portfolio%20Landing.dc.html" style="display:grid;row-gap:3px;color:#201f1d;text-decoration:none;flex:none">' +
+        '<span style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:23px;line-height:1;letter-spacing:.01em">Steve Sutanto</span>' +
+        '<span style="font-family:ui-monospace,Menlo,monospace;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(32,31,29,.55)">Product Design &amp; Strategy</span>' +
+      '</a>' +
+      '<div style="display:flex;align-items:center;gap:30px;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase">' +
+        '<a class="dk-link" href="../Portfolio%20Landing.dc.html" style="color:rgba(32,31,29,.72);text-decoration:none">Work</a>' +
+        '<a class="dk-link" href="../About.dc.html" style="color:rgba(32,31,29,.72);text-decoration:none">About</a>' +
+        '<button id="dk-index-btn" type="button" aria-expanded="false" style="font:inherit;letter-spacing:inherit;text-transform:inherit;color:#201f1d;background:none;border:0;padding:0;cursor:pointer">Index</button>' +
+        '<span id="dk-count" aria-hidden="true" style="color:rgba(32,31,29,.55);font-variant-numeric:tabular-nums;white-space:nowrap"></span>' +
+      '</div>' +
+    '</div>' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 30px 11px;flex-wrap:wrap">' +
+      '<div style="display:flex;align-items:center;gap:12px;flex:none">' +
+        '<button id="dk-prev" class="dk-arrow" type="button" aria-label="Previous work" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(32,31,29,.72);background:none;border:1px solid rgba(32,31,29,.22);border-radius:999px;width:25px;height:25px;line-height:1;padding:0;cursor:pointer">&#9664;</button>' +
+        '<span id="dk-title" style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:20px;color:#201f1d;white-space:nowrap;min-width:180px"></span>' +
+        '<button id="dk-next" class="dk-arrow" type="button" aria-label="Next work" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(32,31,29,.72);background:none;border:1px solid rgba(32,31,29,.22);border-radius:999px;width:25px;height:25px;line-height:1;padding:0;cursor:pointer">&#9654;</button>' +
+        '<span id="dk-views" role="group" aria-label="Slide within work" style="display:inline-flex;margin-left:4px;border:1px solid rgba(32,31,29,.22);border-radius:999px;overflow:hidden"></span>' +
+      '</div>' +
+      '<div id="dk-filters" role="group" aria-label="Filter by industry" style="display:flex;align-items:center;gap:7px;overflow-x:auto;padding-bottom:2px"></div>' +
+    '</div>' +
+  '</div>' +
+  '<p id="dk-status" class="dk-sr" role="status" aria-live="polite"></p>' +
+  '<div id="dk-index" hidden role="dialog" aria-modal="true" aria-label="Slide index" style="position:fixed;inset:0;z-index:6;background:rgba(255,255,255,.97);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);overflow:auto">' +
+    '<div style="max-width:880px;margin:0 auto;padding:52px 30px 80px">' +
+      '<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">' +
+        '<span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:rgba(32,31,29,.6);padding-bottom:9px;border-bottom:2px solid #b68235">Slide index</span>' +
+        '<button id="dk-index-close" type="button" style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(32,31,29,.6);background:none;border:0;cursor:pointer">Close &#10005;</button>' +
+      '</div>' +
+      '<div id="dk-index-list"></div>' +
+    '</div>' +
+  '</div>';
+
+  function injectChrome() {
+    if (document.getElementById('deck-chrome')) return;
+    var st = document.createElement('style');
+    st.id = 'deck-chrome-css'; st.textContent = CSS;
+    document.head.appendChild(st);
+    var host = document.createElement('div');
+    host.id = 'deck-chrome-host';
+    host.innerHTML = MARKUP;
+    while (host.firstChild) document.body.appendChild(host.firstChild);
+  }
+
+  var deck, works = [], filter = null, indexOpen = false;
+  var $ = function (id) { return document.getElementById(id); };
+  var slug = function (t) { return t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); };
+
+  /* ---- model: derived from data-label, never hardcoded ---- */
+  function buildWorks() {
+    works = [];
+    [].forEach.call(deck.children, function (sec, i) {
+      var label = sec.getAttribute('data-label') || '';
+      if (label.indexOf('—') < 0) return;              // Cover / Close
+      var parts = label.split('—');
+      var title = parts[0].trim(), view = parts[1].trim().toLowerCase();
+      var w = works[works.length - 1];
+      if (!w || w.title !== title) {
+        w = { title: title, slug: slug(title), industry: sec.getAttribute('data-industry') || '' };
+        works.push(w);
+      }
+      w[view] = i;                                          // 0-based, for goTo()
+    });
+  }
+  function visible() {
+    return filter ? works.filter(function (w) { return w.industry === filter; }) : works.slice();
+  }
+  function currentWork() {
+    var i = deck.index;
+    for (var n = 0; n < works.length; n++)
+      if (works[n].story === i || works[n].details === i) return n;
+    return -1;                                              // Cover or Close
+  }
+  function currentView() {
+    var w = works[currentWork()];
+    return w ? (deck.index === w.details ? 'details' : 'story') : null;
+  }
+
+  /* ---- navigation ---- */
+  function goWork(n, view) {
+    var w = works[n]; if (!w) return;
+    deck.goTo(w[view || 'story'] != null ? w[view || 'story'] : w.story);
+  }
+  function stepWork(dir) {
+    var vis = visible(); if (!vis.length) return;
+    var cur = works[currentWork()];
+    var at = cur ? vis.indexOf(cur) : -1;
+    var nxt = at < 0 ? (dir > 0 ? 0 : vis.length - 1) : at + dir;
+    if (nxt < 0 || nxt >= vis.length) return;
+    goWork(works.indexOf(vis[nxt]), currentView() || 'story');
+  }
+  function setFilter(next, push) {
+    filter = next;
+    var vis = visible();
+    var cur = works[currentWork()];
+    // relocate rather than strand the viewer on a work nav can no longer reach
+    if (vis.length && (!cur || vis.indexOf(cur) < 0)) goWork(works.indexOf(vis[0]), 'story');
+    render(); syncUrl(push);
+  }
+
+  /* ---- url ---- */
+  function syncUrl(push) {
+    var w = works[currentWork()], q = [];
+    if (w) { q.push('work=' + w.slug); if (currentView() === 'details') q.push('view=details'); }
+    if (filter) q.push('industry=' + filter);
+    var url = location.pathname + (q.length ? '?' + q.join('&') : '') + location.hash;
+    try { history[push ? 'pushState' : 'replaceState'](null, '', url); } catch (e) {}
+  }
+  function readUrl() {
+    var q = new URLSearchParams(location.search);
+    var ind = q.get('industry');
+    if (ind && INDUSTRIES.some(function (p) { return p[0] === ind; })) filter = ind;
+    var ws = q.get('work');
+    if (ws) {
+      for (var n = 0; n < works.length; n++)
+        if (works[n].slug === ws) { goWork(n, q.get('view') === 'details' ? 'details' : 'story'); return true; }
+    }
+    // a shared ?industry= link with no ?work= should open on that industry's
+    // first work, not sit on the Cover with a filter the viewer can't see acting
+    if (filter) {
+      var vis = visible();
+      if (vis.length) { goWork(works.indexOf(vis[0]), 'story'); return true; }
+    }
+    return false;
+  }
+
+  /* ---- render ---- */
+  function chip(label, on, onclick, title) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.textContent = label; b.className = 'dk-chip'; if (title) b.title = title;
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    b.style.cssText = 'font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.12em;' +
+      'text-transform:uppercase;white-space:nowrap;padding:5px 13px;border-radius:999px;cursor:pointer;' +
+      'transition:background .2s,color .2s,border-color .2s;' +
+      (on ? 'background:' + BRASS + ';color:#fff;border:1px solid ' + BRASS + ';'
+          : 'background:transparent;color:' + DIM + ';border:1px solid ' + LINE + ';');
+    b.addEventListener('click', onclick);
+    return b;
+  }
+  function renderFilters() {
+    var box = $('dk-filters'); box.textContent = '';
+    box.appendChild(chip('All · ' + works.length, !filter, function () { setFilter(null, true); }));
+    INDUSTRIES.forEach(function (p) {
+      var n = works.filter(function (w) { return w.industry === p[0]; }).length;
+      if (!n) return;
+      box.appendChild(chip(p[1] + ' · ' + n, filter === p[0], function () {
+        setFilter(filter === p[0] ? null : p[0], true);
+      }, p[1] + ': ' + n + ' work' + (n === 1 ? '' : 's')));
+    });
+  }
+  function renderViews() {
+    var box = $('dk-views'); box.textContent = '';
+    var n = currentWork(), cur = currentView();
+    [['story', 'Story'], ['details', 'Details']].forEach(function (p, i) {
+      var on = cur === p[0];
+      var b = document.createElement('button');
+      b.type = 'button'; b.textContent = p[1]; b.className = 'dk-view';
+      b.disabled = n < 0;
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      b.style.cssText = 'font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.12em;' +
+        'text-transform:uppercase;padding:5px 14px;border:0;cursor:' + (n < 0 ? 'default' : 'pointer') + ';' +
+        'transition:background .2s,color .2s;' + (i ? 'border-left:1px solid ' + LINE + ';' : '') +
+        (n < 0 ? 'background:transparent;color:rgba(32,31,29,.28);'
+               : on ? 'background:' + BRASS + ';color:#fff;' : 'background:transparent;color:' + DIM + ';');
+      if (n >= 0) b.addEventListener('click', function () { goWork(n, p[0]); });
+      box.appendChild(b);
+    });
+  }
+  function renderIndex() {
+    var list = $('dk-index-list'); list.textContent = '';
+    var vis = visible(), curN = currentWork();
+    vis.forEach(function (w) {
+      var n = works.indexOf(w), on = n === curN;
+      var row = document.createElement('div');
+      row.className = 'dk-row';
+      row.style.cssText = 'display:flex;align-items:baseline;gap:20px;padding:15px 0;' +
+        'border-top:1px solid rgba(32,31,29,.14)';
+      row.innerHTML =
+        '<span style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:26px;width:44px;flex:none;' +
+        'font-variant-numeric:tabular-nums;color:' + (on ? BRASS : 'rgba(32,31,29,.4)') + '">' +
+        ('0' + (n + 1)).slice(-2) + '</span>' +
+        '<span style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:22px;flex:1;color:#201f1d" class="dk-row-title">' +
+        w.title + '</span>' +
+        '<span style="font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.12em;' +
+        'text-transform:uppercase;color:rgba(32,31,29,.5);white-space:nowrap">' +
+        (INDUSTRIES.filter(function (p) { return p[0] === w.industry; })[0] || ['', ''])[1] + '</span>';
+      var acts = document.createElement('span');
+      acts.style.cssText = 'display:inline-flex;gap:8px;flex:none';
+      [['story', 'Story'], ['details', 'Details']].forEach(function (p) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.textContent = p[1]; b.className = 'dk-chip';
+        b.style.cssText = 'font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.1em;' +
+          'text-transform:uppercase;padding:4px 11px;border:1px solid ' + LINE + ';border-radius:999px;' +
+          'background:transparent;color:' + DIM + ';cursor:pointer;transition:color .2s,border-color .2s';
+        b.addEventListener('click', function () { goWork(n, p[0]); toggleIndex(false); });
+        acts.appendChild(b);
+      });
+      row.appendChild(acts);
+      list.appendChild(row);
+    });
+    if (!vis.length) {
+      list.innerHTML = '<p style="font-size:15px;color:rgba(32,31,29,.6);padding:22px 0">' +
+        'No works in this industry. Clear the filter to see all ' + works.length + '.</p>';
+    }
+  }
+  function render() {
+    var vis = visible(), cur = works[currentWork()];
+    var at = cur ? vis.indexOf(cur) : -1;
+    $('dk-title').textContent = cur ? cur.title : (deck.index === 0 ? 'Cover' : 'Close');
+    $('dk-count').textContent = at >= 0
+      ? 'Work ' + ('0' + (at + 1)).slice(-2) + ' / ' + ('0' + vis.length).slice(-2)
+      : 'Slide ' + (deck.index + 1) + ' / ' + deck.length;
+    $('dk-prev').disabled = at <= 0;
+    $('dk-next').disabled = at < 0 || at >= vis.length - 1;
+    [['dk-prev', at > 0], ['dk-next', at >= 0 && at < vis.length - 1]].forEach(function (p) {
+      $(p[0]).style.opacity = p[1] ? '1' : '.34';
+      $(p[0]).style.cursor = p[1] ? 'pointer' : 'default';
+    });
+    var st = $('dk-status');
+    if (st) st.textContent = (at >= 0
+      ? 'Work ' + (at + 1) + ' of ' + vis.length + '. ' + cur.title + '. ' +
+        (currentView() === 'details' ? 'Details' : 'Story') + '.'
+      : (deck.index === 0 ? 'Cover slide.' : 'Closing slide.')) +
+      (filter ? ' Filtered to ' + (INDUSTRIES.filter(function (p) { return p[0] === filter; })[0] || ['',''])[1] + '.' : '');
+    renderFilters(); renderViews();
+    if (indexOpen) renderIndex();
+    measure();
+  }
+  function toggleIndex(on) {
+    indexOpen = on == null ? !indexOpen : on;
+    $('dk-index').hidden = !indexOpen;
+    $('dk-index-btn').setAttribute('aria-expanded', indexOpen ? 'true' : 'false');
+    if (indexOpen) { renderIndex(); $('dk-index-close').focus(); } else { $('dk-index-btn').focus(); }
+  }
+
+  /* ---- header height -> --deck-header-h, then ask the deck to refit ---- */
+  var lastH = -1;
+  function measure() {
+    var h = Math.round($('deck-chrome').getBoundingClientRect().height);
+    if (h === lastH) return;
+    lastH = h;
+    document.documentElement.style.setProperty('--deck-header-h', h + 'px');
+    window.dispatchEvent(new Event('resize'));               // component refits
+  }
+
+  /* ---- boot ---- */
+  function start(d) {
+    deck = d;
+    injectChrome();
+    buildWorks();
+    // our labelled index replaces the component's number-only thumbnail rail
+    try { window.postMessage({ type: '__deck_rail_visible', on: false }, '*'); } catch (e) {}
+
+    deck.addEventListener('slidechange', function () { render(); syncUrl(false); });
+
+    $('dk-prev').addEventListener('click', function () { stepWork(-1); });
+    $('dk-next').addEventListener('click', function () { stepWork(1); });
+    $('dk-index-btn').addEventListener('click', function () { toggleIndex(); });
+    $('dk-index-close').addEventListener('click', function () { toggleIndex(false); });
+
+    // the component's keydown is on window and only exempts form fields, so
+    // stop our chrome's keys from also driving the deck
+    ['deck-chrome', 'dk-index'].forEach(function (id) {
+      $(id).addEventListener('keydown', function (e) {
+        if ([' ', 'Spacebar', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+             'Home', 'End', 'PageUp', 'PageDown'].indexOf(e.key) > -1 ||
+            /^[0-9]$/.test(e.key)) e.stopPropagation();
+      }, true);
+    });
+
+    window.addEventListener('keydown', function (e) {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      var t = e.composedPath ? e.composedPath()[0] : e.target;
+      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName || ''))) return;
+      if (e.key === 'Escape' && indexOpen) { toggleIndex(false); e.preventDefault(); return; }
+      if (e.key === 'i' || e.key === 'I') { toggleIndex(); e.preventDefault(); return; }
+      if (indexOpen) return;
+      var n = currentWork();
+      if (e.key === '[') { stepWork(-1); e.preventDefault(); }
+      else if (e.key === ']') { stepWork(1); e.preventDefault(); }
+      else if ((e.key === 's' || e.key === 'S') && n >= 0) { goWork(n, 'story'); e.preventDefault(); }
+      else if ((e.key === 'd' || e.key === 'D') && n >= 0) { goWork(n, 'details'); e.preventDefault(); }
+    });
+
+    // the component reads the hash only at mount; add live hash navigation
+    window.addEventListener('hashchange', function () {
+      var m = location.hash.match(/^#(\d+)$/);
+      if (m) deck.goTo(parseInt(m[1], 10) - 1);
+    });
+    window.addEventListener('popstate', function () { readUrl(); render(); });
+    window.addEventListener('resize', measure);
+
+    readUrl();
+    render();
+  }
+
+  function waitForDeck() {
+    var d = document.querySelector('deck-stage');
+    if (d && d.goTo && d.children.length > 1) { start(d); return; }
+    requestAnimationFrame(waitForDeck);
+  }
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', waitForDeck);
+  else waitForDeck();
+})();
+</script></body>
 </html>

@@ -1590,13 +1590,20 @@
         return;
       }
       const rw = this._railWidth();
+      // LOCAL PATCH (portfolio): reserve vertical space for the site header
+      // rendered above the deck in the light DOM. Driven by --deck-header-h on
+      // :root so this is a no-op (0) wherever that variable is absent, keeping
+      // the component's stock behaviour intact.
+      const hh = parseFloat(getComputedStyle(document.documentElement)
+                   .getPropertyValue('--deck-header-h')) || 0;
+      if (stage) stage.style.top = hh + 'px';
       if (stage) stage.style.left = rw + 'px';
       // Overlay is centred on the viewport via left:50% + translate(-50%);
       // marginLeft shifts the centre by rw/2 so it lands in the middle of
       // the [rw, innerWidth] stage region.
       if (this._overlay) this._overlay.style.marginLeft = (rw / 2) + 'px';
       const vw = window.innerWidth - rw;
-      const vh = window.innerHeight;
+      const vh = window.innerHeight - hh;  // LOCAL PATCH: minus header
       const s = Math.min(vw / this.designWidth, vh / this.designHeight);
       this._canvas.style.transform = `scale(${s})`;
     }
