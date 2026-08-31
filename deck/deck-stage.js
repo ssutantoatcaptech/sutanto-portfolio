@@ -1585,7 +1585,7 @@
       // resetTransformSelector can't reach .canvas.style.transform directly.
       if (this.hasAttribute('noscale')) {
         this._canvas.style.transform = 'none';
-        if (stage) stage.style.left = '0';
+        if (stage) { stage.style.left = '0'; stage.style.top = '0'; stage.style.bottom = '0'; }
         if (this._overlay) this._overlay.style.marginLeft = '0';
         return;
       }
@@ -1594,16 +1594,22 @@
       // rendered above the deck in the light DOM. Driven by --deck-header-h on
       // :root so this is a no-op (0) wherever that variable is absent, keeping
       // the component's stock behaviour intact.
-      const hh = parseFloat(getComputedStyle(document.documentElement)
-                   .getPropertyValue('--deck-header-h')) || 0;
-      if (stage) stage.style.top = hh + 'px';
-      if (stage) stage.style.left = rw + 'px';
+      const cs = getComputedStyle(document.documentElement);
+      const hh = parseFloat(cs.getPropertyValue('--deck-header-h')) || 0;
+      // --deck-stage-pad adds symmetric breathing room above and below the
+      // slide. Both default to 0, so the file behaves stock without them.
+      const pad = parseFloat(cs.getPropertyValue('--deck-stage-pad')) || 0;
+      if (stage) {
+        stage.style.top = (hh + pad) + 'px';
+        stage.style.bottom = pad + 'px';
+        stage.style.left = rw + 'px';
+      }
       // Overlay is centred on the viewport via left:50% + translate(-50%);
       // marginLeft shifts the centre by rw/2 so it lands in the middle of
       // the [rw, innerWidth] stage region.
       if (this._overlay) this._overlay.style.marginLeft = (rw / 2) + 'px';
       const vw = window.innerWidth - rw;
-      const vh = window.innerHeight - hh;  // LOCAL PATCH: minus header
+      const vh = window.innerHeight - hh - pad * 2;  // LOCAL PATCH: header + padding
       const s = Math.min(vw / this.designWidth, vh / this.designHeight);
       this._canvas.style.transform = `scale(${s})`;
     }
