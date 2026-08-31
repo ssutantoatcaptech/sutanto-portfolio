@@ -1612,6 +1612,14 @@
       const vh = window.innerHeight - hh - pad * 2;  // LOCAL PATCH: header + padding
       const s = Math.min(vw / this.designWidth, vh / this.designHeight);
       this._canvas.style.transform = `scale(${s})`;
+      // LOCAL PATCH (portfolio): --deck-slide-edge repaints the canvas ring in
+      // a colour that reads on a light stage (the stock ring is white, for the
+      // black one). Width is divided by the scale so it lands as a true 1px
+      // hairline at any viewport. Unset -> the stock ring is left alone.
+      const edge = cs.getPropertyValue('--deck-slide-edge').trim();
+      if (edge && s > 0) {
+        this._canvas.style.boxShadow = '0 0 0 ' + (1 / s) + 'px ' + edge;
+      }
     }
 
     _onResize() {
