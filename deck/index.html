@@ -1114,7 +1114,8 @@
     ['logistics',          'Logistics'],
     ['professional-svcs',  'Professional Services']
   ];
-  var BRASS = '#7d5411', DIM = 'rgba(32,31,29,.62)', LINE = 'rgba(32,31,29,.22)';
+  var BLUE = '#176EBF', DIM = 'rgba(32,31,29,.62)', LINE = 'rgba(32,31,29,.22)';
+  var BRASS = BLUE;  // chrome accents follow the site's button blue
 
   /* ---- chrome is injected here, not authored in the HTML: the DC/React
      runtime templates markup found in the document and was rendering a
@@ -1125,13 +1126,13 @@
     ".dk-nav{font-family:ui-sans-serif,system-ui,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji'}",
     "#deck-chrome a,#deck-chrome button,#dk-index button{transition:color .2s,border-color .2s,background .2s}",
     "#dk-index[hidden]{display:none!important}",
-    ".dk-link:hover,#dk-index-btn:hover,#dk-index-close:hover{color:#7d5411!important}",
-    ".dk-arrow:not(:disabled):hover{color:#7d5411!important;border-color:rgba(182,130,53,.55)!important}",
-    ".dk-chip:not([aria-pressed='true']):hover{color:#7d5411!important;border-color:rgba(182,130,53,.55)!important}",
-    ".dk-view:not([aria-pressed='true']):not(:disabled):hover{background:rgba(182,130,53,.10)!important;color:#7d5411!important}",
+    ".dk-link:hover,#dk-index-btn:hover,#dk-index-close:hover{color:#176EBF!important}",
+    ".dk-arrow:not(:disabled):hover{color:#176EBF!important;border-color:rgba(23,110,191,.55)!important}",
+    ".dk-chip:not([aria-pressed='true']):hover{color:#176EBF!important;border-color:rgba(23,110,191,.55)!important}",
+    ".dk-view:not([aria-pressed='true']):not(:disabled):hover{background:rgba(23,110,191,.10)!important;color:#176EBF!important}",
     ".dk-row:hover .dk-row-title{padding-left:8px}",
     ".dk-row-title{transition:padding-left .25s}",
-    "#deck-chrome button:focus-visible,#dk-index button:focus-visible,#deck-chrome a:focus-visible{outline:2px solid #7d5411;outline-offset:2px}",
+    "#deck-chrome button:focus-visible,#dk-index button:focus-visible,#deck-chrome a:focus-visible{outline:2px solid #176EBF;outline-offset:2px}",
     ".dk-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}",
     "@media (prefers-reduced-motion:reduce){#deck-chrome *,#dk-index *{transition:none!important}}",
     "@media print{#deck-chrome,#dk-index{display:none!important}}"
@@ -1151,21 +1152,22 @@
         '<span id="dk-count" aria-hidden="true" style="color:rgba(32,31,29,.55);font-variant-numeric:tabular-nums;white-space:nowrap"></span>' +
       '</div>' +
     '</div>' +
-    '<div style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 30px 11px;flex-wrap:wrap">' +
+    '<div id="dk-filters" role="group" aria-label="Filter by industry" style="display:flex;align-items:center;gap:7px;padding:0 30px 10px;overflow-x:auto"></div>' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:9px 30px 10px;border-top:1px solid rgba(32,31,29,.09)">' +
       '<div style="display:flex;align-items:center;gap:12px;flex:none">' +
         '<button id="dk-prev" class="dk-arrow" type="button" aria-label="Previous work" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(32,31,29,.72);background:none;border:1px solid rgba(32,31,29,.22);border-radius:999px;width:25px;height:25px;line-height:1;padding:0;cursor:pointer">&#9664;</button>' +
         '<span id="dk-title" style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:20px;color:#201f1d;white-space:nowrap;min-width:180px"></span>' +
         '<button id="dk-next" class="dk-arrow" type="button" aria-label="Next work" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(32,31,29,.72);background:none;border:1px solid rgba(32,31,29,.22);border-radius:999px;width:25px;height:25px;line-height:1;padding:0;cursor:pointer">&#9654;</button>' +
         '<span id="dk-views" role="group" aria-label="Slide within work" style="display:inline-flex;margin-left:4px;border:1px solid rgba(32,31,29,.22);border-radius:999px;overflow:hidden"></span>' +
       '</div>' +
-      '<div id="dk-filters" role="group" aria-label="Filter by industry" style="display:flex;align-items:center;gap:7px;overflow-x:auto;padding-bottom:2px"></div>' +
+      '<button id="dk-present" type="button" title="Full screen slideshow (F)" style="display:inline-flex;align-items:center;gap:9px;flex:none;background:#176EBF;color:#fff;border:0;border-radius:999px;padding:7px 17px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer">Enlarge<span style="font-size:12px">&#9974;</span></button>' +
     '</div>' +
   '</div>' +
   '<p id="dk-status" class="dk-sr" role="status" aria-live="polite"></p>' +
   '<div id="dk-index" hidden role="dialog" aria-modal="true" aria-label="Slide index" style="position:fixed;inset:0;z-index:6;background:rgba(255,255,255,.97);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);overflow:auto">' +
     '<div style="max-width:880px;margin:0 auto;padding:52px 30px 80px">' +
       '<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">' +
-        '<span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:rgba(32,31,29,.6);padding-bottom:9px;border-bottom:2px solid #b68235">Slide index</span>' +
+        '<span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:rgba(32,31,29,.6);padding-bottom:9px;border-bottom:2px solid #176EBF">Slide index</span>' +
         '<button id="dk-index-close" type="button" style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(32,31,29,.6);background:none;border:0;cursor:pointer">Close &#10005;</button>' +
       '</div>' +
       '<div id="dk-index-list"></div>' +
@@ -1374,6 +1376,44 @@
     if (indexOpen) { renderIndex(); $('dk-index-close').focus(); } else { $('dk-index-btn').focus(); }
   }
 
+  /* ---- full screen slideshow ----
+     Hides the chrome, zeroes the header inset and the stage padding so the
+     slide uses the whole screen, and tells deck-stage to enter presenting
+     mode, which hard-hides its rail and overlay. Escape exits via the
+     browser's own fullscreen handling. ---- */
+  var presenting = false;
+  function fsElement() { return document.fullscreenElement || document.webkitFullscreenElement; }
+  function requestFs() {
+    var el = document.documentElement;
+    var fn = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (fn) { try { fn.call(el); } catch (e) {} }
+  }
+  function exitFs() {
+    var fn = document.exitFullscreen || document.webkitExitFullscreen;
+    if (fn && fsElement()) { try { fn.call(document); } catch (e) {} }
+  }
+  function togglePresent(on) {
+    if (on == null) on = !fsElement();
+    if (on) requestFs(); else exitFs();
+  }
+  function applyPresent(on) {
+    if (on === presenting) return;
+    presenting = on;
+    var root = document.documentElement, chrome = $('deck-chrome');
+    if (chrome) chrome.style.display = on ? 'none' : '';
+    if (on) {
+      root.style.setProperty('--deck-header-h', '0px');
+      root.style.setProperty('--deck-stage-pad', '0px');
+    } else {
+      root.style.removeProperty('--deck-stage-pad');   // back to the 48px in CSS
+      lastH = -1; measure();                            // recompute chrome height
+    }
+    var b = $('dk-present');
+    if (b) b.firstChild.nodeValue = on ? 'Exit' : 'Enlarge';
+    try { window.postMessage({ __omelette_presenting: on }, '*'); } catch (e) {}
+    window.dispatchEvent(new Event('resize'));
+  }
+
   /* ---- header height -> --deck-header-h, then ask the deck to refit ---- */
   var lastH = -1;
   function measure() {
@@ -1397,6 +1437,10 @@
     $('dk-prev').addEventListener('click', function () { stepWork(-1); });
     $('dk-next').addEventListener('click', function () { stepWork(1); });
     $('dk-index-btn').addEventListener('click', function () { toggleIndex(); });
+    $('dk-present').addEventListener('click', function () { togglePresent(); });
+    ['fullscreenchange', 'webkitfullscreenchange'].forEach(function (e) {
+      document.addEventListener(e, function () { applyPresent(!!fsElement()); });
+    });
     $('dk-index-close').addEventListener('click', function () { toggleIndex(false); });
 
     // the component's keydown is on window and only exempts form fields, so
@@ -1415,6 +1459,7 @@
       if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName || ''))) return;
       if (e.key === 'Escape' && indexOpen) { toggleIndex(false); e.preventDefault(); return; }
       if (e.key === 'i' || e.key === 'I') { toggleIndex(); e.preventDefault(); return; }
+      if (e.key === 'f' || e.key === 'F') { togglePresent(); e.preventDefault(); return; }
       if (indexOpen) return;
       var n = currentWork();
       if (e.key === '[') { stepWork(-1); e.preventDefault(); }
