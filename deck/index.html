@@ -20,7 +20,8 @@
      swapping the black letterbox for warm paper now that slides are white */
   deck-stage { background: #fff; }
   :root {
-    --deck-stage-pad: 48px;
+    --deck-stage-pad: 40px;
+    --deck-stage-pad-bottom: 96px;   /* clears the floating toolbar */
     --deck-slide-edge: rgba(32,31,29,.12);
     --deck-slide-radius: 12px;
     --deck-slide-shadow: rgba(32,31,29,.10);
@@ -1127,12 +1128,16 @@
      second copy of it inside #dc-root. Appending to <body> at runtime keeps
      exactly one copy, outside React's tree. ---- */
   var CSS = [
-    "#deck-chrome,#dk-index{font-family:ui-sans-serif,system-ui,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji'}",
+    "#deck-chrome,#dk-index,#dk-bar{font-family:ui-sans-serif,system-ui,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji'}",
     ".dk-nav,.dk-chip,.dk-view,.dk-arrow{font-family:ui-sans-serif,system-ui,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji'}",
     "#deck-chrome a,#deck-chrome button,#dk-index button{transition:color .2s,border-color .2s,background .2s}",
     "#dk-index[hidden]{display:none!important}",
     ".dk-link:hover,#dk-index-btn:hover,#dk-index-close:hover{color:#176EBF!important}",
-    ".dk-arrow:not(:disabled):hover{color:#176EBF!important;border-color:rgba(23,110,191,.55)!important}",
+    ".dk-arrow:not(:disabled):hover,.dk-zoom:not(:disabled):hover{background:#176EBF!important;border-color:#176EBF!important;color:#fff!important}",
+    ".dk-arrow:disabled,.dk-zoom:disabled{opacity:.32;cursor:default}",
+    "#dk-zoom-reset:hover{color:#fff!important}",
+    "#dk-bar button:focus-visible{outline:2px solid #fff;outline-offset:2px}",
+    ".dk-arrow:disabled{opacity:.3;cursor:default}",
     ".dk-chip:not([aria-pressed='true']):hover{color:#176EBF!important;border-color:rgba(23,110,191,.55)!important}",
     ".dk-view:not([aria-pressed='true']):not(:disabled):hover{background:rgba(23,110,191,.10)!important;color:#176EBF!important}",
     ".dk-row:hover .dk-row-title{padding-left:8px}",
@@ -1152,19 +1157,22 @@
       '</a>' +
       '<div class="dk-nav" style="display:flex;align-items:center;gap:30px;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase">' +
         '<button id="dk-index-btn" type="button" aria-expanded="false" style="font:inherit;letter-spacing:inherit;text-transform:inherit;color:#201f1d;background:none;border:0;padding:0;cursor:pointer">Index</button>' +
-        '<span id="dk-count" aria-hidden="true" style="color:rgba(32,31,29,.55);font-variant-numeric:tabular-nums;white-space:nowrap"></span>' +
       '</div>' +
     '</div>' +
     '<div id="dk-filters" role="group" aria-label="Filter by industry" style="display:flex;align-items:center;gap:7px;padding:0 max(72px,calc((100% - 1440px)/2 + 72px)) 16px;overflow-x:auto"></div>' +
-    '<div style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:14px max(72px,calc((100% - 1440px)/2 + 72px)) 14px;border-top:1px solid rgba(32,31,29,.09)">' +
-      '<div style="display:flex;align-items:center;gap:12px;flex:none">' +
-        '<button id="dk-prev" class="dk-arrow" type="button" aria-label="Previous work" style="font-size:11px;color:rgba(32,31,29,.72);background:none;border:1px solid rgba(32,31,29,.22);border-radius:999px;width:25px;height:25px;line-height:1;padding:0;cursor:pointer">&#9664;</button>' +
-        '<span id="dk-title" style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:20px;color:#201f1d;white-space:nowrap;min-width:180px"></span>' +
-        '<button id="dk-next" class="dk-arrow" type="button" aria-label="Next work" style="font-size:11px;color:rgba(32,31,29,.72);background:none;border:1px solid rgba(32,31,29,.22);border-radius:999px;width:25px;height:25px;line-height:1;padding:0;cursor:pointer">&#9654;</button>' +
-        '<span id="dk-views" role="group" aria-label="Slide within work" style="display:inline-flex;margin-left:4px;border:1px solid rgba(32,31,29,.22);border-radius:999px;overflow:hidden"></span>' +
-      '</div>' +
-      '<button id="dk-present" type="button" title="Full screen slideshow (F)" style="display:inline-flex;align-items:center;gap:9px;flex:none;background:#176EBF;color:#fff;border:0;border-radius:999px;padding:7px 17px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer">Enlarge<span style="font-size:12px">&#9974;</span></button>' +
-    '</div>' +
+  '</div>' +
+  '<div id="dk-bar" role="toolbar" aria-label="Deck navigation" style="position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:5;display:flex;align-items:center;gap:11px;padding:8px 9px;background:rgba(26,25,24,.93);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.13);border-radius:999px;box-shadow:0 10px 30px rgba(20,19,18,.34)">' +
+    '<button id="dk-prev" class="dk-arrow" type="button" aria-label="Previous work" title="Previous work ([)" style=\"display:inline-flex;align-items:center;justify-content:center;color:#fff;background:rgba(255,255,255,.10);border:1.5px solid rgba(255,255,255,.38);border-radius:999px;width:32px;height:32px;padding:0;cursor:pointer;flex:none\"><svg viewBox=\"0 0 16 16\" width=\"15\" height=\"15\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10 3L5 8l5 5\"/></svg></button>' +
+    '<span id="dk-title" style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:19px;color:#fff;white-space:nowrap;padding:0 2px"></span>' +
+    '<span id="dk-views" role="group" aria-label="Slide within work" style="display:inline-flex;border:1px solid rgba(255,255,255,.30);border-radius:999px;overflow:hidden;flex:none"></span>' +
+    '<span id="dk-count" class="dk-nav" aria-hidden="true" style="font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.62);font-variant-numeric:tabular-nums;white-space:nowrap;padding:0 2px"></span>' +
+    '<button id="dk-next" class="dk-arrow" type="button" aria-label="Next work" title="Next work (])" style=\"display:inline-flex;align-items:center;justify-content:center;color:#fff;background:rgba(255,255,255,.10);border:1.5px solid rgba(255,255,255,.38);border-radius:999px;width:32px;height:32px;padding:0;cursor:pointer;flex:none\"><svg viewBox=\"0 0 16 16\" width=\"15\" height=\"15\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 3l5 5-5 5\"/></svg></button>' +
+    '<span style="width:1px;height:22px;background:rgba(255,255,255,.20);flex:none"></span>' +
+    '<button id="dk-zoom-out" class="dk-zoom" type="button" aria-label="Zoom out" title="Zoom out (-)" style=\"display:inline-flex;align-items:center;justify-content:center;color:#fff;background:none;border:1px solid rgba(255,255,255,.28);border-radius:999px;width:26px;height:26px;padding:0;cursor:pointer;flex:none;font-size:14px;line-height:1\">&#8722;</button>' +
+    '<button id="dk-zoom-reset" class="dk-nav" type="button" aria-label="Reset zoom" title="Fit to screen (0)" style="min-width:44px;font-size:10.5px;letter-spacing:.08em;color:rgba(255,255,255,.78);background:none;border:0;padding:0 2px;cursor:pointer;font-variant-numeric:tabular-nums">100%</button>' +
+    '<button id="dk-zoom-in" class="dk-zoom" type="button" aria-label="Zoom in" title="Zoom in (+)" style=\"display:inline-flex;align-items:center;justify-content:center;color:#fff;background:none;border:1px solid rgba(255,255,255,.28);border-radius:999px;width:26px;height:26px;padding:0;cursor:pointer;flex:none;font-size:14px;line-height:1\">+</button>' +
+    '<span style="width:1px;height:22px;background:rgba(255,255,255,.20);flex:none"></span>' +
+    '<button id="dk-present" type="button" title="Full screen slideshow (F)" style="display:inline-flex;align-items:center;gap:8px;flex:none;background:#176EBF;color:#fff;border:0;border-radius:999px;padding:8px 15px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer">Enlarge<span style="font-size:12px">&#9974;</span></button>' +
   '</div>' +
   '<p id="dk-status" class="dk-sr" role="status" aria-live="polite"></p>' +
   '<div id="dk-index" hidden role="dialog" aria-modal="true" aria-label="Slide index" style="position:fixed;inset:0;z-index:6;background:rgba(255,255,255,.97);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);overflow:auto">' +
@@ -1305,9 +1313,9 @@
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
       b.style.cssText = 'font-size:10.5px;letter-spacing:.12em;' +
         'text-transform:uppercase;padding:5px 14px;border:0;cursor:' + (n < 0 ? 'default' : 'pointer') + ';' +
-        'transition:background .2s,color .2s;' + (i ? 'border-left:1px solid ' + LINE + ';' : '') +
-        (n < 0 ? 'background:transparent;color:rgba(32,31,29,.28);'
-               : on ? 'background:' + BRASS + ';color:#fff;' : 'background:transparent;color:' + DIM + ';');
+        'transition:background .2s,color .2s;' + (i ? 'border-left:1px solid rgba(255,255,255,.30);' : '') +
+        (n < 0 ? 'background:transparent;color:rgba(255,255,255,.46);'
+               : on ? 'background:' + BLUE + ';color:#fff;' : 'background:transparent;color:rgba(255,255,255,.82);');
       if (n >= 0) b.addEventListener('click', function () { goWork(n, p[0]); });
       box.appendChild(b);
     });
@@ -1380,6 +1388,26 @@
     if (indexOpen) { renderIndex(); $('dk-index-close').focus(); } else { $('dk-index-btn').focus(); }
   }
 
+  /* ---- zoom ----
+     Multiplies the fitted scale through --deck-zoom, which _fit reads. Above
+     1 the stage scrolls so the off-screen part of the slide stays reachable. */
+  var ZOOMS = [1, 1.25, 1.5, 2, 3], zoomAt = 0;
+  function applyZoom() {
+    document.documentElement.style.setProperty('--deck-zoom', ZOOMS[zoomAt]);
+    var lbl = $('dk-zoom-reset');
+    if (lbl) lbl.textContent = Math.round(ZOOMS[zoomAt] * 100) + '%';
+    var o = $('dk-zoom-out'), i2 = $('dk-zoom-in');
+    if (o) o.disabled = zoomAt === 0;
+    if (i2) i2.disabled = zoomAt === ZOOMS.length - 1;
+    window.dispatchEvent(new Event('resize'));
+  }
+  function stepZoom(d) {
+    var next = Math.max(0, Math.min(ZOOMS.length - 1, zoomAt + d));
+    if (next === zoomAt) return;
+    zoomAt = next; applyZoom();
+  }
+  function resetZoom() { if (zoomAt !== 0) { zoomAt = 0; applyZoom(); } }
+
   /* ---- full screen slideshow ----
      Hides the chrome, zeroes the header inset and the stage padding so the
      slide uses the whole screen, and tells deck-stage to enter presenting
@@ -1405,15 +1433,20 @@
     presenting = on;
     var root = document.documentElement, chrome = $('deck-chrome');
     if (chrome) chrome.style.display = on ? 'none' : '';
+    var bar = $('dk-bar');
+    if (bar) bar.style.display = on ? 'none' : '';
     if (on) {
       root.style.setProperty('--deck-header-h', '0px');
       root.style.setProperty('--deck-stage-pad', '0px');
+      root.style.setProperty('--deck-stage-pad-bottom', '0px');
+      resetZoom();
       // full bleed: a radius or edge would cut into a screen-filling slide
       root.style.setProperty('--deck-slide-radius', '0px');
       root.style.setProperty('--deck-slide-edge', 'transparent');
       root.style.setProperty('--deck-slide-shadow', '');
     } else {
-      root.style.removeProperty('--deck-stage-pad');   // back to the 48px in CSS
+      root.style.removeProperty('--deck-stage-pad');
+      root.style.removeProperty('--deck-stage-pad-bottom');
       ['--deck-slide-radius','--deck-slide-edge','--deck-slide-shadow']
         .forEach(function (v) { root.style.removeProperty(v); });
       lastH = -1; measure();                            // recompute chrome height
@@ -1441,13 +1474,22 @@
     buildWorks();
     // our labelled index replaces the component's number-only thumbnail rail
     try { window.postMessage({ type: '__deck_rail_visible', on: false }, '*'); } catch (e) {}
+    // the component's own bottom overlay duplicates this toolbar; the shadow
+    // root is open, so hide it rather than leave two paginations on screen
+    try {
+      var ov = deck.shadowRoot && deck.shadowRoot.querySelector('.overlay');
+      if (ov) ov.style.display = 'none';
+    } catch (e) {}
 
-    deck.addEventListener('slidechange', function () { render(); syncUrl(false); });
+    deck.addEventListener('slidechange', function () { resetZoom(); render(); syncUrl(false); });
 
     $('dk-prev').addEventListener('click', function () { stepWork(-1); });
     $('dk-next').addEventListener('click', function () { stepWork(1); });
     $('dk-index-btn').addEventListener('click', function () { toggleIndex(); });
     $('dk-present').addEventListener('click', function () { togglePresent(); });
+    $('dk-zoom-in').addEventListener('click', function () { stepZoom(1); });
+    $('dk-zoom-out').addEventListener('click', function () { stepZoom(-1); });
+    $('dk-zoom-reset').addEventListener('click', resetZoom);
     ['fullscreenchange', 'webkitfullscreenchange'].forEach(function (e) {
       document.addEventListener(e, function () { applyPresent(!!fsElement()); });
     });
@@ -1470,6 +1512,9 @@
       if (e.key === 'Escape' && indexOpen) { toggleIndex(false); e.preventDefault(); return; }
       if (e.key === 'i' || e.key === 'I') { toggleIndex(); e.preventDefault(); return; }
       if (e.key === 'f' || e.key === 'F') { togglePresent(); e.preventDefault(); return; }
+      if (e.key === '+' || e.key === '=') { stepZoom(1); e.preventDefault(); return; }
+      if (e.key === '-' || e.key === '_') { stepZoom(-1); e.preventDefault(); return; }
+      if (e.key === '0') { resetZoom(); e.preventDefault(); return; }
       if (indexOpen) return;
       var n = currentWork();
       if (e.key === '[') { stepWork(-1); e.preventDefault(); }
@@ -1486,6 +1531,7 @@
     window.addEventListener('popstate', function () { readUrl(); render(); });
     window.addEventListener('resize', measure);
 
+    applyZoom();
     readUrl();
     render();
   }

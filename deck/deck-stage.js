@@ -1599,9 +1599,12 @@
       // --deck-stage-pad adds symmetric breathing room above and below the
       // slide. Both default to 0, so the file behaves stock without them.
       const pad = parseFloat(cs.getPropertyValue('--deck-stage-pad')) || 0;
+      // optional asymmetric bottom, to clear a floating toolbar
+      const padBRaw = cs.getPropertyValue('--deck-stage-pad-bottom');
+      const padB = padBRaw.trim() ? (parseFloat(padBRaw) || 0) : pad;
       if (stage) {
         stage.style.top = (hh + pad) + 'px';
-        stage.style.bottom = pad + 'px';
+        stage.style.bottom = padB + 'px';
         stage.style.left = rw + 'px';
       }
       // Overlay is centred on the viewport via left:50% + translate(-50%);
@@ -1609,9 +1612,29 @@
       // the [rw, innerWidth] stage region.
       if (this._overlay) this._overlay.style.marginLeft = (rw / 2) + 'px';
       const vw = window.innerWidth - rw;
-      const vh = window.innerHeight - hh - pad * 2;  // LOCAL PATCH: header + padding
-      const s = Math.min(vw / this.designWidth, vh / this.designHeight);
+      const vh = window.innerHeight - hh - pad - padB;  // LOCAL PATCH: header + padding
+      const fit = Math.min(vw / this.designWidth, vh / this.designHeight);
+      // LOCAL PATCH (portfolio): --deck-zoom multiplies the fitted scale so the
+      // slide can be inspected past its fit size. Above 1 the canvas overflows
+      // the stage, so the stage scrolls and the canvas centres with auto
+      // margins (flex centring would put the overflow out of scroll reach).
+      const zoom = parseFloat(cs.getPropertyValue('--deck-zoom')) || 1;
+      const s = fit * zoom;
       this._canvas.style.transform = `scale(${s})`;
+      if (stage) {
+        // A transform does not grow the scrollable area, so a zoomed canvas
+        // would be visually larger with its overflow unreachable. Anchor it
+        // top-left and pad the layout box out to the painted size with
+        // margins, which is what the scroll container actually measures.
+        const over = this.designWidth * s > vw || this.designHeight * s > vh;
+        const c = this._canvas.style;
+        c.transformOrigin  = over ? '0 0' : '';
+        c.marginRight      = over ? (this.designWidth  * (s - 1)) + 'px' : '';
+        c.marginBottom     = over ? (this.designHeight * (s - 1)) + 'px' : '';
+        stage.style.overflow       = over ? 'auto' : '';
+        stage.style.alignItems     = over ? 'flex-start' : '';
+        stage.style.justifyContent = over ? 'flex-start' : '';
+      }
       // LOCAL PATCH (portfolio): slide edge, corner radius and drop shadow.
       // The stock ring is white at 12%, for the component's black stage, and
       // is invisible on a light one. With none of the three vars set the
